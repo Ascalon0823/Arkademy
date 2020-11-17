@@ -23,15 +23,15 @@ namespace Arkademy
             var aim = ray.GetPoint(enter);
             if (Input.GetMouseButtonDown(0) && hit)
             {
-                currSpell.OnCastBegin(this,aim);
+                currSpell.OnDown(this,aim);
             }else  if (Input.GetMouseButton(0) && hit)
             {
                 transform.rotation = Quaternion.LookRotation(aim - pos, Vector3.up);
-                currSpell.OnCasting(this,aim);
+                currSpell.OnHeld(this,aim);
             }
             else if (Input.GetMouseButtonUp(0) && hit)
             {
-                currSpell.OnCastEnd(this,aim);
+                currSpell.OnUp(this,aim);
             }
             else
             {
