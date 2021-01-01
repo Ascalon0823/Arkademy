@@ -53,6 +53,17 @@ namespace Arkademy
         {
             return _instance.cam;
         }
+
+        public static Vector3 GetCameraForward(bool projectOnPlane = true)
+        {
+            var forward = _instance.cam.transform.forward;
+            return (projectOnPlane ? Vector3.ProjectOnPlane(forward, Vector3.up) : forward).normalized;
+        }
+        public static Vector3 GetCameraRight(bool projectOnPlane = true)
+        {
+            var right = _instance.cam.transform.right;
+            return (projectOnPlane ? Vector3.ProjectOnPlane(right, Vector3.up) : right).normalized;
+        }
         public static Ray GetRay(Vector3? screenPoint = null)
         {
             return GetCamera().ScreenPointToRay(screenPoint ?? Input.mousePosition);
