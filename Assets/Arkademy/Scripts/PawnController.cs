@@ -7,39 +7,31 @@ using UniRx;
 
 namespace Arkademy
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Pawn))]
     public class PawnController : MonoBehaviour
     {
-        public Vector3 moveDirection;
-        public Vector3 lookDirection;
-        private Plane _pawnPlane = new Plane(Vector3.zero, Vector3.up);
-        [SerializeField] private float maxMoveSpeed = 0f;
-        [SerializeField] private float minDottedSpeed = 0.5f;
-        [SerializeField] private float acceleration = 0f;
-        [SerializeField] private float angularSpeed = 0;
-        [SerializeField] private Rigidbody rb;
-
-        [SerializeField] private Quaternion rot;
-        [SerializeField] private bool dash;
-        private ReadOnlyReactiveProperty<Interactable> _currFocus;
-        private ReactiveCollection<Interactable> _interactablesInRange = new ReactiveCollection<Interactable>();
-
-        // Start is called before the first frame update
-        void Start()
+        public Pawn CurrPawn
         {
-            rb = GetComponent<Rigidbody>();
-            _currFocus = Observable.EveryUpdate().Select(x =>
-                {
-                    if (!_interactablesInRange.Any()) return null;
-                    return _interactablesInRange.OrderBy(
-                        x => Vector3.Distance(x.transform.position, transform.position)).First();
-                }).StartWith(null as Interactable).ToReadOnlyReactiveProperty();
-            _currFocus.DistinctUntilChanged()
+            get => currPawn;
+            private set => currPawn = value;
+        }
+        [SerializeField] private Pawn currPawn;
+
+
+        private void Awake()
+        {
+            currPawn = GetComponent<Pawn>();
+        }
+
+        private void Start()
+        {
+            currPawn.CurrFocus.DistinctUntilChanged()
                 .Subscribe(Highlighter.HighlightOn).AddTo(this);
         }
 
         void HandleMovement()
         {
+            if (!currPawn.CanMove) return;
             var dir = Vector3.zero;
             var forward = CameraController.GetCameraForward();
             var right = CameraController.GetCameraRight();
@@ -63,20 +55,19 @@ namespace Arkademy
                 dir += right;
             }
 
-            moveDirection = dir.normalized;
-            _pawnPlane.SetNormalAndPosition(Vector3.up, rb.transform.position);
+            currPawn.moveDirection = dir.normalized;
+            var p = new Plane(Vector3.up,currPawn.transform.position);
             var ray = CameraController.GetRay();
-            lookDirection = (_pawnPlane.Raycast(ray, out var enter) && Input.GetMouseButton(0)
-                ? Vector3.ProjectOnPlane(ray.GetPoint(enter) - rb.position, Vector3.up)
-                : (moveDirection.magnitude.Equals(0f) ? rb.transform.forward : moveDirection)).normalized;
-            rot = Quaternion.LookRotation(lookDirection, Vector3.up);
+            currPawn.lookDirection = (p.Raycast(ray, out var enter) && Input.GetMouseButton(0)
+                ? Vector3.ProjectOnPlane(ray.GetPoint(enter) - currPawn.transform.position, Vector3.up)
+                : (currPawn.moveDirection.magnitude.Equals(0f) ? currPawn.transform.forward : currPawn.moveDirection)).normalized;
         }
 
         void HandleInteraction()
         {
-            if (Input.GetKeyUp(KeyCode.E) && _currFocus.HasValue)
+            if (Input.GetKeyUp(KeyCode.E))
             {
-                _currFocus.Value.Interact(gameObject);
+                currPawn.InteractWithCurrFocus();
             }
         }
 
@@ -86,32 +77,6 @@ namespace Arkademy
             HandleMovement();
             HandleInteraction();
         }
-
-        private void FixedUpdate()
-        {
-            var dottedMoveSpeed =
-                maxMoveSpeed * (minDottedSpeed + (Vector3.Dot(lookDirection, moveDirection) + 1f) / 4f);
-            var velocity = rb.velocity;
-            rb.velocity = new Vector3(
-                Mathf.Lerp(velocity.x, moveDirection.x * dottedMoveSpeed, acceleration * Time.fixedDeltaTime),
-                velocity.y,
-                Mathf.Lerp(velocity.z, moveDirection.z * dottedMoveSpeed, acceleration * Time.fixedDeltaTime)
-            );
-            rb.rotation = Quaternion.RotateTowards(rb.rotation, rot.normalized, Time.fixedDeltaTime * angularSpeed);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            var inter = other.GetComponent<Interactable>();
-            if (inter == null) return;
-            _interactablesInRange.Add(inter);
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            var inter = other.GetComponent<Interactable>();
-            if (inter == null || !_interactablesInRange.Contains(inter)) return;
-            _interactablesInRange.Remove(inter);
-        }
+    
     }
 }

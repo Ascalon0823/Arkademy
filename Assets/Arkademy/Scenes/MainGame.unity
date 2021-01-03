@@ -451,15 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b2cf0d4ce5f5043826572701766527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDirection: {x: 0, y: 0, z: 0}
-  lookDirection: {x: 0, y: 0, z: 0}
-  maxMoveSpeed: 10
-  minDottedSpeed: 0.5
-  acceleration: 5
-  angularSpeed: 360
-  rb: {fileID: 0}
-  rot: {x: 0, y: 0, z: 0, w: 0}
-  dash: 0
+  currPawn: {fileID: 0}
 --- !u!54 &880682517
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -503,6 +495,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f24f349fcfff8b428563d70f36b6c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveDirection: {x: 0, y: 0, z: 0}
+  lookDirection: {x: 0, y: 0, z: 0}
+  canMove: 1
+  maxMoveSpeed: 10
+  minDottedSpeed: 0.5
+  acceleration: 5
+  angularSpeed: 360
+  rb: {fileID: 0}
+  rot: {x: 0, y: 0, z: 0, w: 0}
+  dash: 0
 --- !u!136 &880682520
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -655,6 +657,7 @@ GameObject:
   - component: {fileID: 1631678927}
   - component: {fileID: 1631678926}
   - component: {fileID: 1631678925}
+  - component: {fileID: 1631678930}
   m_Layer: 0
   m_Name: Interactable (1)
   m_TagString: Untagged
@@ -765,6 +768,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631678923}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1631678930
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631678923}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1813682840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,10 +1176,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
-  m_StopNaN: 0
+  m_StopNaN: 1
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1

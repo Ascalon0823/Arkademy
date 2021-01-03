@@ -17,8 +17,9 @@ namespace Arkademy
             triggerSphere.radius = range;
         }
 
-        public virtual void Interact(GameObject actor)
+        public virtual void Interact(Pawn actor)
         {
+            
         }
         
         private void OnDrawGizmosSelected()
