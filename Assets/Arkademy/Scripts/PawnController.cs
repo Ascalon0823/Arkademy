@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace Arkademy
 
         [SerializeField] private Quaternion rot;
         [SerializeField] private bool dash;
+        [SerializeField] private Interactable currentFocus = null;
+        private List<Interactable> _interactablesInRange = new List<Interactable>();
+
         // Start is called before the first frame update
         void Start()
         {
@@ -61,29 +65,39 @@ namespace Arkademy
 
         void HandleInteraction()
         {
-            var interactables = FindObjectsOfType<Interactable>()
-                .Where(x => x.enabled
-                            && x.range >= Vector3.Distance(transform.position, x.transform.position))
-                .OrderBy(x =>Vector3.Distance(transform.position, x.transform.position))
-                .ToList();
-            if (interactables != null && interactables.Count() > 0)
+            if (!_interactablesInRange.Any())
             {
-                if (Input.GetKeyUp(KeyCode.E))
-                {
-                    interactables[0].Interact(gameObject);
-                }
+                if(currentFocus!=null)
+                    currentFocus.Highlight(gameObject,false);
+                currentFocus = null;
+                return;
+            }
+            var nearest = _interactablesInRange.OrderBy(
+                x => Vector3.Distance(x.transform.position, transform.position)).First();
+            if (currentFocus != nearest)
+            {
+                if(currentFocus!=null)
+                    currentFocus.Highlight(gameObject,false);
+                currentFocus = nearest;
+                nearest.Highlight(gameObject,true);
+            }
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                nearest.Interact(gameObject);
             }
         }
+
         // Update is called once per frame
         void Update()
         {
             HandleMovement();
             HandleInteraction();
         }
-        
+
         private void FixedUpdate()
         {
-            var dottedMoveSpeed = maxMoveSpeed * (minDottedSpeed + (Vector3.Dot(lookDirection, moveDirection) + 1f) / 4f);
+            var dottedMoveSpeed =
+                maxMoveSpeed * (minDottedSpeed + (Vector3.Dot(lookDirection, moveDirection) + 1f) / 4f);
             var velocity = rb.velocity;
             rb.velocity = new Vector3(
                 Mathf.Lerp(velocity.x, moveDirection.x * dottedMoveSpeed, acceleration * Time.fixedDeltaTime),
@@ -91,6 +105,20 @@ namespace Arkademy
                 Mathf.Lerp(velocity.z, moveDirection.z * dottedMoveSpeed, acceleration * Time.fixedDeltaTime)
             );
             rb.rotation = Quaternion.RotateTowards(rb.rotation, rot.normalized, Time.fixedDeltaTime * angularSpeed);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            var inter = other.GetComponent<Interactable>();
+            if (inter == null) return;
+            _interactablesInRange.Add(inter);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            var inter = other.GetComponent<Interactable>();
+            if (inter == null || !_interactablesInRange.Contains(inter)) return;
+            _interactablesInRange.Remove(inter);
         }
     }
 }
