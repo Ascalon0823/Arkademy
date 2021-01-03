@@ -460,7 +460,6 @@ MonoBehaviour:
   rb: {fileID: 0}
   rot: {x: 0, y: 0, z: 0, w: 0}
   dash: 0
-  currentFocus: {fileID: 0}
 --- !u!54 &880682517
 Rigidbody:
   m_ObjectHideFlags: 0

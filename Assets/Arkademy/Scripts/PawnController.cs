@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UniRx;
 
 namespace Arkademy
 {
@@ -20,13 +21,21 @@ namespace Arkademy
 
         [SerializeField] private Quaternion rot;
         [SerializeField] private bool dash;
-        [SerializeField] private Interactable currentFocus = null;
-        private List<Interactable> _interactablesInRange = new List<Interactable>();
+        private ReadOnlyReactiveProperty<Interactable> _currFocus;
+        private ReactiveCollection<Interactable> _interactablesInRange = new ReactiveCollection<Interactable>();
 
         // Start is called before the first frame update
         void Start()
         {
             rb = GetComponent<Rigidbody>();
+            _currFocus = Observable.EveryUpdate().Select(x =>
+                {
+                    if (!_interactablesInRange.Any()) return null;
+                    return _interactablesInRange.OrderBy(
+                        x => Vector3.Distance(x.transform.position, transform.position)).First();
+                }).StartWith(null as Interactable).ToReadOnlyReactiveProperty();
+            _currFocus.DistinctUntilChanged()
+                .Subscribe(Highlighter.HighlightOn).AddTo(this);
         }
 
         void HandleMovement()
@@ -65,25 +74,9 @@ namespace Arkademy
 
         void HandleInteraction()
         {
-            if (!_interactablesInRange.Any())
+            if (Input.GetKeyUp(KeyCode.E) && _currFocus.HasValue)
             {
-                if(currentFocus!=null)
-                    currentFocus.Highlight(gameObject,false);
-                currentFocus = null;
-                return;
-            }
-            var nearest = _interactablesInRange.OrderBy(
-                x => Vector3.Distance(x.transform.position, transform.position)).First();
-            if (currentFocus != nearest)
-            {
-                if(currentFocus!=null)
-                    currentFocus.Highlight(gameObject,false);
-                currentFocus = nearest;
-                nearest.Highlight(gameObject,true);
-            }
-            if (Input.GetKeyUp(KeyCode.E))
-            {
-                nearest.Interact(gameObject);
+                _currFocus.Value.Interact(gameObject);
             }
         }
 
