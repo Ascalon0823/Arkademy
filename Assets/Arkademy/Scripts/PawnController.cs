@@ -54,7 +54,7 @@ namespace Arkademy
             {
                 dir += right;
             }
-
+            
             currPawn.moveDirection = dir.normalized;
             var p = new Plane(Vector3.up,currPawn.transform.position);
             var ray = CameraController.GetRay();

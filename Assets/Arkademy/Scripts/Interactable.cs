@@ -19,7 +19,7 @@ namespace Arkademy
 
         public virtual void Interact(Pawn actor)
         {
-            
+            Debug.Log($"{actor.name} interacts with", this);
         }
         
         private void OnDrawGizmosSelected()

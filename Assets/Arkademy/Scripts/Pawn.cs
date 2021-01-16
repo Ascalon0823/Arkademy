@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
 using System.Linq;
 namespace Arkademy
@@ -16,6 +13,7 @@ namespace Arkademy
         [SerializeField] private float maxMoveSpeed = 0f;
         [SerializeField] private float minDottedSpeed = 0.5f;
         [SerializeField] private float acceleration = 0f;
+        [SerializeField] private float deceleration = 0f;
         [SerializeField] private float angularSpeed = 0;
         [SerializeField] private Rigidbody rb;
 
@@ -47,11 +45,13 @@ namespace Arkademy
             var dottedMoveSpeed =
                 maxMoveSpeed * (minDottedSpeed + (Vector3.Dot(lookDirection, moveDirection) + 1f) / 4f);
             var velocity = rb.velocity;
+            var accel = moveDirection.sqrMagnitude.Equals(0f) ? deceleration : acceleration;
             rb.velocity = new Vector3(
-                Mathf.Lerp(velocity.x, moveDirection.x * dottedMoveSpeed, acceleration * Time.fixedDeltaTime),
+                Mathf.Lerp(velocity.x, moveDirection.x * dottedMoveSpeed, accel * Time.fixedDeltaTime),
                 velocity.y,
-                Mathf.Lerp(velocity.z, moveDirection.z * dottedMoveSpeed, acceleration * Time.fixedDeltaTime)
+                Mathf.Lerp(velocity.z, moveDirection.z * dottedMoveSpeed, accel * Time.fixedDeltaTime)
             );
+            
             rb.rotation = Quaternion.RotateTowards(rb.rotation, rot.normalized, Time.fixedDeltaTime * angularSpeed);
         }
         
