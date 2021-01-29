@@ -12,8 +12,9 @@ namespace Arkademy
         public bool castEnd;
         public float castedTime;
         public Vector3 castOrigin;
-        public Vector3 deltaPos;
-        public Vector3 currentPos;
+        public Vector3 originDeltaPos;
+        public Vector3 pointerPos;
+        public Vector3 pointerDeltaPos;
     }
     public class SpellCaster : MonoBehaviour
     {
