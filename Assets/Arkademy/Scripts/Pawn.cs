@@ -71,7 +71,7 @@ namespace Arkademy
 
         public void InteractWithCurrFocus()
         {
-            if (!_currFocus.HasValue) return;
+            if (!_currFocus.HasValue || _currFocus.Value is null) return;
             _currFocus.Value.Interact(this);
         }
         
