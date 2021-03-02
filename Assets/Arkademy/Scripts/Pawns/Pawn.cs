@@ -1,7 +1,12 @@
-﻿using UnityEngine;
-using UniRx;
+﻿using UniRx;
 using System.Linq;
-namespace Arkademy
+using UnityEngine;
+using System.Collections.Generic;
+using Arkademy.Spells;
+using System.Collections;
+
+
+namespace Arkademy.Pawns
 {
     [RequireComponent(typeof(Rigidbody))]
     public class Pawn : MonoBehaviour
@@ -16,9 +21,9 @@ namespace Arkademy
         [SerializeField] private float deceleration = 0f;
         [SerializeField] private float angularSpeed = 0;
         [SerializeField] private Rigidbody rb;
-
         [SerializeField] private Quaternion rot;
         [SerializeField] private bool dash;
+        [SerializeField] internal List<ISpell> spells;
         public ReadOnlyReactiveProperty<Interactable> CurrFocus => _currFocus;
         private ReadOnlyReactiveProperty<Interactable> _currFocus;
         public ReactiveCollection<Interactable> InteractablesInRange => _interactablesInRange;
@@ -26,11 +31,27 @@ namespace Arkademy
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            _currFocus = Observable.EveryUpdate().Select(x =>
+            _currFocus = GetInteractableRP();
+            spells = GetSpells();
+        }
+
+        private List<ISpell> GetSpells(){
+            // read data from local storage
+            return new List<ISpell>{new IceBeam(), new FireBall()};
+        }
+
+        private ReadOnlyReactiveProperty<Interactable> GetInteractableRP(){
+            return Observable.EveryUpdate().Select(x =>
             {
-                if (!_interactablesInRange.Any()) return null;
-                return _interactablesInRange.OrderBy(
-                    x => Vector3.Distance(x.transform.position, transform.position)).First();
+                if (!_interactablesInRange.Any())
+                {
+                    return null;
+                }
+
+                return _interactablesInRange
+                            .OrderBy(x => Vector3.Distance(x.transform.position, transform.position))
+                            .First();
+
             }).StartWith(null as Interactable).ToReadOnlyReactiveProperty();
         }
 
@@ -42,8 +63,7 @@ namespace Arkademy
         private void FixedUpdate()
         {
             rot = Quaternion.LookRotation(lookDirection, Vector3.up);
-            var dottedMoveSpeed =
-                maxMoveSpeed * (minDottedSpeed + (Vector3.Dot(lookDirection, moveDirection) + 1f) / 4f);
+            var dottedMoveSpeed = maxMoveSpeed * (minDottedSpeed + (Vector3.Dot(lookDirection, moveDirection) + 1f) / 4f);
             var velocity = rb.velocity;
             var accel = moveDirection.sqrMagnitude.Equals(0f) ? deceleration : acceleration;
             rb.velocity = new Vector3(
@@ -57,21 +77,30 @@ namespace Arkademy
         
         private void OnTriggerEnter(Collider other)
         {
-            var inter = other.GetComponent<Interactable>();
-            if (inter == null) return;
-            _interactablesInRange.Add(inter);
+            var interactableComponent = other.GetComponent<Interactable>();
+            if (interactableComponent == null) 
+            {
+                return;
+            }
+            _interactablesInRange.Add(interactableComponent);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            var inter = other.GetComponent<Interactable>();
-            if (inter == null || !_interactablesInRange.Contains(inter)) return;
-            _interactablesInRange.Remove(inter);
+            var interactableComponent = other.GetComponent<Interactable>();
+            if (interactableComponent == null || !_interactablesInRange.Contains(interactableComponent))
+            {
+                return;
+            }
+            _interactablesInRange.Remove(interactableComponent);
         }
 
         public void InteractWithCurrFocus()
         {
-            if (!_currFocus.HasValue || _currFocus.Value is null) return;
+            if (!_currFocus.HasValue || _currFocus.Value is null)
+            {
+                return;
+            }
             _currFocus.Value.Interact(this);
         }
         

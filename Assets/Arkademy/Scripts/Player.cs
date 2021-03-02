@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Arkademy.Pawns;
 namespace Arkademy{
 
     public class Player : MonoBehaviour

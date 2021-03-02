@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Arkademy.Spells.SpellEffects;
 
 namespace Arkademy.Spells
 {
@@ -16,7 +17,8 @@ namespace Arkademy.Spells
                 case CastStatus.Begin:
                     break;
                 case CastStatus.Hold:
-                    Debug.Log("Ice beam freezing");
+                    Debug.Log("IceBeam");
+                    SpellEffectFactory.Beam(eventData.CastOrigin, eventData.PointerPos, eventData.CastedTime);
                     break;
                 case CastStatus.End:
                     break;

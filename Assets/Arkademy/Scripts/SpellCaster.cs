@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Arkademy.Spells;
+
 namespace Arkademy
 {
-    public enum CastStatus{
-        
+    public enum CastStatus
+    {
         Idle,
         Begin,
         Hold,
         End,
     }
+
     public struct CastEventData
     {
         public SpellCaster Caster;
@@ -22,14 +24,15 @@ namespace Arkademy
         public Vector3 PointerPos;
         public Vector3 PointerDeltaPos;
     }
+
     public class SpellCaster : MonoBehaviour
     {
-        [SerializeField] private ISpell loadedSpell = null;
+        [SerializeField] private ISpell loadedSpell;
         [SerializeField] private float castedTime;
 
-        private void Awake()
+        public void LoadSpell(ISpell spell)
         {
-            loadedSpell = new IceBeam();
+            loadedSpell = spell;
         }
 
         private void Update()
@@ -38,7 +41,9 @@ namespace Arkademy
             var castEvent = new CastEventData
             {
                 Caster = this,
-                Status =  CastStatus.Idle
+                Status =  CastStatus.Idle,
+                CastOrigin = transform.position,
+                PointerPos = Vector3.zero
             };
             if (Input.GetMouseButtonDown(0))
             {
