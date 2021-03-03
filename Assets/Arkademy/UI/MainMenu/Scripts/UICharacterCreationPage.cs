@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Arkademy.Characters;
+using Arkademy.Spells;
+using Arkademy.GameStatus;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -44,6 +46,13 @@ namespace Arkademy.UI.MainMenu
         public void FinishCreation()
         {
             gameObject.SetActive(false);
+            currChar = new Character(1, name, new List<ISpell>{new FireBall()});
+            var save = new Save {
+                Characters = new List<Character>{currChar},
+                SaveTime = DateTime.Now
+            };
+            SystemManager.SaveGame(save);
+            SystemManager.LoadGame();
         }
     }
  

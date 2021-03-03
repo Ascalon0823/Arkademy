@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Arkademy.Spells.SpellEffects;
 
 namespace Arkademy.Spells
 {
+     [Serializable]
     public class IceBeam : ISpell
     {
         public void Cast(CastEventData eventData)

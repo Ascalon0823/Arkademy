@@ -1,4 +1,5 @@
 using UnityEngine;
+using Arkademy.GameStatus;
 
 namespace Arkademy.UI.MainMenu
 {
@@ -7,12 +8,17 @@ namespace Arkademy.UI.MainMenu
         [SerializeField]private UICharacterCreationPage _characterCreationPage;
         public void HandleNewGameButton()
         {
-            if (_characterCreationPage == null) return;
+            if (_characterCreationPage == null) {
+                return;
+            }
             _characterCreationPage.gameObject.SetActive(true);
         }
         public void HandleExitButton()
         {
             SystemManager.Exit();
+        }
+        public void HandleLoadButton(){
+            SystemManager.LoadGame();
         }
     }
 }
