@@ -1445,6 +1445,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICharacterCreationPage
       objectReference: {fileID: 0}
+    - target: {fileID: 3996286826965288168, guid: 7d3cb92fc88daae4595bde7598ecb4f1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9219884484103049602, guid: 7d3cb92fc88daae4595bde7598ecb4f1,
         type: 3}
       propertyPath: m_Pivot.x

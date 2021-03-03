@@ -16,15 +16,12 @@ namespace Arkademy.UI.MainMenu
         [SerializeField] private Button completeButton;
         private Character currChar;
 
-        private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
-
         private void OnEnable()
         {
             if (nameInputField == null) return;
+            completeButton.interactable = false;
             nameInputField.onValueChanged.AddListener(OnNameChanged);
+            nameInputField.text = "Yun yun";
         }
 
         private void OnDisable()
