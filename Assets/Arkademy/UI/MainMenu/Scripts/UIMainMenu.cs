@@ -1,4 +1,5 @@
 using UnityEngine;
+using Arkademy.GameStatus;
 
 namespace Arkademy.UI.MainMenu
 {
@@ -11,6 +12,9 @@ namespace Arkademy.UI.MainMenu
         public void HandleExitButton()
         {
             SystemManager.Exit();
+        }
+        public void HandleLoadButton(){
+            SystemManager.LoadGame();
         }
     }
 }

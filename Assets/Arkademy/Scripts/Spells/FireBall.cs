@@ -5,6 +5,7 @@ using System;
 
 namespace Arkademy.Spells
 {
+    [Serializable]
     public class FireBall : ISpell
     {
         public void Cast(CastEventData eventData)
