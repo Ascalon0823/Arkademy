@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Arkademy.Pawns;
-namespace Arkademy{
+
+namespace Arkademy.Player {
 
     public class Player : MonoBehaviour
     {
