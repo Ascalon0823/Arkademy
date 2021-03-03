@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Arkademy.Spells;
 
@@ -37,7 +34,11 @@ namespace Arkademy
 
         private void Update()
         {
-            if (loadedSpell == null) return;
+            if (loadedSpell == null)
+            {
+                return;
+            }
+            
             var castEvent = new CastEventData
             {
                 Caster = this,
@@ -45,6 +46,7 @@ namespace Arkademy
                 CastOrigin = transform.position,
                 PointerPos = CameraController.GetPlaneRayHit(new Plane(Vector3.up, transform.position),out var point ) ? point : Vector3.zero
             };
+            
             if (Input.GetMouseButtonDown(0))
             {
                 castedTime = 0; // reset casted time
@@ -58,6 +60,7 @@ namespace Arkademy
             {
                 castEvent.Status = CastStatus.End;
             }
+            
             loadedSpell.Cast(castEvent);
         }
     }
