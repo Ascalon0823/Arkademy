@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Arkademy.Pawns;
+using Arkademy.Characters;
 
 namespace Arkademy.Player {
 
@@ -10,6 +11,7 @@ namespace Arkademy.Player {
     {
         public static Player MainPlayer;
         public Pawn currentPawn;
+        public Character currentCharacter;
         private void Awake()
         {
             MainPlayer = this;
@@ -22,6 +24,11 @@ namespace Arkademy.Player {
 
         // Update is called once per frame
         private void Update()
+        {
+            
+        }
+
+        public void SetCharacter(Character character)
         {
             
         }

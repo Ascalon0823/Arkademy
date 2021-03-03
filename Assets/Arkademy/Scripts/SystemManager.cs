@@ -10,8 +10,8 @@ namespace Arkademy
 
         public static void NewGame()
         {
-            Debug.Log("[System] Start new game");
-            SceneManager.LoadScene(MainGameScene);
+            //Debug.Log("[System] Start new game");
+            //SceneManager.LoadScene(MainGameScene);
         }
         public static void LoadGame()
         {
