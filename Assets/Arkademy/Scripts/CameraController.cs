@@ -68,5 +68,16 @@ namespace Arkademy
         {
             return GetCamera().ScreenPointToRay(screenPoint ?? Input.mousePosition);
         }
+        public static bool GetPlaneRayHit(Plane plane, out Vector3 point, Vector3? screenPoint = null)
+        {
+            point = Vector3.zero;
+            var ray = GetRay(screenPoint);
+            if (plane.Raycast(ray, out var enter))
+            {
+                point = ray.GetPoint(enter);
+                return true;
+            }
+            return false;
+        }
     }
 }

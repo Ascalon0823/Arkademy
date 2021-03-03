@@ -43,7 +43,7 @@ namespace Arkademy
                 Caster = this,
                 Status =  CastStatus.Idle,
                 CastOrigin = transform.position,
-                PointerPos = Vector3.zero
+                PointerPos = CameraController.GetPlaneRayHit(new Plane(Vector3.up, transform.position),out var point ) ? point : Vector3.zero
             };
             if (Input.GetMouseButtonDown(0))
             {

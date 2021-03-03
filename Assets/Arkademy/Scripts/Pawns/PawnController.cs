@@ -45,9 +45,9 @@ namespace Arkademy.Pawns
             var p = new Plane(Vector3.up,currPawn.transform.position);
             var ray = CameraController.GetRay();
 
-            var hasLookDirection = p.Raycast(ray, out var enter) && Input.GetMouseButton(0);
+            var hasLookDirection = CameraController.GetPlaneRayHit(p,out var hit) && Input.GetMouseButton(0);
             if (hasLookDirection){
-                return Vector3.ProjectOnPlane(ray.GetPoint(enter) - currPawn.transform.position, Vector3.up);
+                return Vector3.ProjectOnPlane(hit - currPawn.transform.position, Vector3.up);
             }
 
             var hasMoveDirection = !currPawn.moveDirection.magnitude.Equals(0f);
