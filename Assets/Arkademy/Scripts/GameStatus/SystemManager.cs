@@ -1,12 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 using System.IO;
-using UnityEngine.UI;
-using Arkademy.Characters;
-using System.Collections;
-using System.Collections.Generic;
-using Arkademy.Spells;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Arkademy.GameStatus 
@@ -16,7 +11,6 @@ namespace Arkademy.GameStatus
     {
         private const string MainGameScene = "MainGame";
         private const string MainMenuScene = "MainMenu";
-
         public static void LoadGame()
         {
             if (!File.Exists(Application.persistentDataPath + "/gamesave.save")){
@@ -32,12 +26,13 @@ namespace Arkademy.GameStatus
             // todo: pass the loaded data to a struct
 
             Debug.Log("[System] Start game");
+            MainGameManager.SetCurrentSave(save);
             SceneManager.LoadScene(MainGameScene);
         }
-
         public static void SaveGame(Save save)
         {
             BinaryFormatter bf = new BinaryFormatter();
+            save.SaveTime = DateTime.Now;
             FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
             bf.Serialize(file, save);
             file.Close();
@@ -48,7 +43,17 @@ namespace Arkademy.GameStatus
         public static void GoToMainMenu()
         {
             Debug.Log("[System] Go to main menu");
+            MainGameManager.ClearCurrentSave();
             SceneManager.LoadScene(MainMenuScene);
+        }
+
+        public static bool InMainMenu()
+        {
+            return SceneManager.GetActiveScene().name == MainMenuScene;
+        }
+        public static bool InMainGame()
+        {
+            return SceneManager.GetActiveScene().name == MainGameScene;
         }
 
         public static void Exit()

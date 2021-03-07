@@ -4,33 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Arkademy.Pawns;
 using Arkademy.Characters;
-
+using Arkademy.GameStatus;
 namespace Arkademy.Player {
 
     public class Player : MonoBehaviour
     {
-        public static Player MainPlayer;
+        public static Player MainPlayer { get; private set; }
         public Pawn currentPawn;
         public Character currentCharacter;
-        private void Awake()
+
+        public static void NewPlayer(Save save)
         {
-            MainPlayer = this;
+            if (MainPlayer != null)
+            {
+                Destroy(MainPlayer);
+            }
+            MainPlayer = Instantiate(Resources.Load<Player>("Player"));
+            MainPlayer.InitPlayer(save);
         }
 
-        private void Start()
+        private void InitPlayer(Save save)
         {
-            currentPawn = GetComponentInChildren<Pawn>();
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
-            
-        }
-
-        public void SetCharacter(Character character)
-        {
-            
+            Debug.Log("Initializing player");
         }
     }
 }
