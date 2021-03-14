@@ -9,6 +9,8 @@ namespace Arkademy.EffectSystem.Test
         public Effect.Type effectType;
 
         public float energy;
+
+        public Vector3 direction;
         // Update is called once per frame
         void Update()
         {
@@ -16,7 +18,7 @@ namespace Arkademy.EffectSystem.Test
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && PropertiesHolder.TryGetPropHolderFromCollider(hit.collider,out var holder))
                 {
-                    holder.ReceiveEffect(effectType.NewEffect(energy));
+                    holder.ReceiveEffect(effectType.NewEffect(energy,direction,hit.point));
                 }
             }
         }

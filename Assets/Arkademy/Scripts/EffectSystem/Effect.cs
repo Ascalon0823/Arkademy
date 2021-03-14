@@ -6,36 +6,46 @@ using UnityEngine;
 
 namespace Arkademy.EffectSystem
 {
-    [System.Serializable]
-    public class Effect
+    public abstract class Effect
     {
         public enum Type
         {
             Heat,
-            Chill
+            Chill,
+            Kinect,
+            Static,
+            Accel,
         }
-
-        public Type GetType => type;
-        [SerializeField]protected Type type;
         public float magnitude;
+        public Vector3 direction;
+        public Vector3 position;
 
-        public virtual void Apply(ref PropertyGroup propGroup)
+        public Effect(float energy, Vector3 dir, Vector3 pos)
         {
-            
+            magnitude = energy;
+            direction = dir;
+            position = pos;
         }
+        public abstract void Apply(PropertiesHolder holder);
     }
     public static class EffectTypeExtension
     {
-        public static Effect NewEffect(this Effect.Type type, float energy)
+        public static Effect NewEffect(this Effect.Type type, float energy,Vector3 direction,Vector3 position)
         {
             switch (type)
             {
                 case Effect.Type.Heat:
-                    return new HeatEffect(energy);
+                    return new HeatEffect(energy,direction,position);
                     break;
                 case Effect.Type.Chill:
-                    return new ChillEffect(energy);
+                    return new ChillEffect(energy,direction,position);
                     break;
+                case Effect.Type.Kinect:
+                    return new KinectEffect(energy,direction,position);
+                case Effect.Type.Static:
+                    return new StaticEffect(energy,direction,position);
+                case Effect.Type.Accel:
+                    return new AccelEffect(energy,direction,position);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

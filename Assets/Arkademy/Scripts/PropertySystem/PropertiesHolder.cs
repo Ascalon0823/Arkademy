@@ -35,7 +35,7 @@ namespace Arkademy
         public bool ReceiveEffect(Effect effect)
         {
             if (!CanApplyEffect(effect)) return false;
-            effect.Apply(ref ObjectGroup);
+            effect.Apply(this);
             return true;
         }
 

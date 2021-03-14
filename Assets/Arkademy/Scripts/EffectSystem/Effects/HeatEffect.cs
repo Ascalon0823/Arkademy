@@ -7,21 +7,19 @@ namespace Arkademy.EffectSystem
 {
     public class HeatEffect : Effect
     {
-        public HeatEffect(float energy)
+        public HeatEffect(float energy, Vector3 dir, Vector3 pos) : base(energy, dir, pos)
         {
-            type = Type.Heat;
-            magnitude = energy;
         }
 
-        public override void Apply(ref PropertyGroup propertyGroup)
+        public override void Apply(PropertiesHolder holder)
         {
-            if (propertyGroup.TryGetProperty("Temperature", out var temp))
+            if (holder.ObjectGroup.TryGetProperty("Temperature", out var temp))
             {
-                propertyGroup.Update("Temperature",temp + magnitude);
+                holder.ObjectGroup.Update("Temperature",temp + magnitude);
             }
-            if (propertyGroup.TryGetProperty("Humidity", out temp))
+            if (holder.ObjectGroup.TryGetProperty("Humidity", out temp))
             {
-                propertyGroup.Update("Humidity",temp - magnitude);
+                holder.ObjectGroup.Update("Humidity",temp - magnitude);
             }
         }
     }
