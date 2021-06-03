@@ -13,6 +13,7 @@ namespace Arkademy.Scenes.Game
         [SerializeField] private Vector3 followOffset;
         [SerializeField] private float followDistance;
 
+
         public Ray GetRay(Vector3? screenPos = null)
         {
             return useCamera.ScreenPointToRay(screenPos ?? Input.mousePosition);
