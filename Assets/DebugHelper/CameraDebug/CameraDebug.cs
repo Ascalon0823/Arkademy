@@ -1,5 +1,5 @@
 using System;
-using Arkademy.Scenes.Game;
+using Arkademy.Game;
 using UnityEngine;
 
 namespace DebugHelper.CameraDebug
@@ -9,7 +9,7 @@ namespace DebugHelper.CameraDebug
         #if UNITY_EDITOR
         void Update()
         {
-            transform.position = PlayerCamera.Current.PointAt();
+            transform.position = PlayerCamera.Current.PointAtPos();
         }
         #endif
     }

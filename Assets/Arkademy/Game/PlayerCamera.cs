@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Arkademy.Scenes.Game
+namespace Arkademy.Game
 {
     [RequireComponent(typeof(Camera))]
     public class PlayerCamera : MonoBehaviour
@@ -18,12 +18,18 @@ namespace Arkademy.Scenes.Game
         {
             return useCamera.ScreenPointToRay(screenPos ?? Input.mousePosition);
         }
-        public Vector3 PointAt(Vector3? screenPos = null)
+        public Vector3 PointAtPos(Vector3? screenPos = null)
         {
             var zeroPlane = new Plane(Vector3.up, Vector3.zero);
             var pointingRay = GetRay(screenPos);
             zeroPlane.Raycast(pointingRay, out var enter);
             return pointingRay.GetPoint(enter);
+        }
+
+        public Collider PointAtObj(Vector3? screenPos = null)
+        {
+            Physics.Raycast(GetRay(screenPos), out var hit);
+            return hit.collider;
         }
         private void Awake()
         {
