@@ -7,7 +7,7 @@ namespace Arkademy.Game
     {
         Direct,
         Ray,
-        Shape,
+        Box,
         Projectile,
         Spray
     }
@@ -18,7 +18,8 @@ namespace Arkademy.Game
         public float minimumEnergy;
         public RayBehaviour rayPrefab;
         [SerializeField] private RayBehaviour currentRay;
-        public GameObject boxPrefab;
+        public BoxSpellBehaviour boxPrefab;
+        [SerializeField] private BoxSpellBehaviour currentBox;
         public GameObject cylinderPrefab;
         public ProjectileBehaviour projectilePrefab;
 
@@ -33,7 +34,8 @@ namespace Arkademy.Game
                 case SpellMediumType.Ray:
                     HandleRaySpell(castEvent);
                     break;
-                case SpellMediumType.Shape:
+                case SpellMediumType.Box:
+                    HandleBoxSpell(castEvent);
                     break;
                 case SpellMediumType.Projectile:
                     HandleProjectile(castEvent);
@@ -77,6 +79,21 @@ namespace Arkademy.Game
             if (castEvent.state == Caster.CastState.End)
             {
                 Destroy(currentRay.gameObject);
+            }
+        }
+
+        private void HandleBoxSpell(Caster.CastEvent castEvent)
+        {
+            if (currentBox == null)
+            {
+                currentBox = Instantiate(boxPrefab);
+                currentBox.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
+                currentBox.transform.position = castEvent.originPos;
+                currentBox.transform.localScale = Vector3.one * 2.5f;
+            }
+            if (castEvent.state == Caster.CastState.End)
+            {
+                Destroy(currentBox.gameObject);
             }
         }
     }
