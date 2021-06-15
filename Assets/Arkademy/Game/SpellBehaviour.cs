@@ -3,14 +3,77 @@ using UnityEngine;
 
 namespace Arkademy.Game
 {
-    public enum SpellTargetType
+    public enum SpellMediumType
     {
-        Objects,
-        Direction,
-        Area
+        Direct,
+        Ray,
+        Shape,
+        Projectile
     }
+
     public class SpellBehaviour : MonoBehaviour
     {
-       public SpellTargetType targetType;
+        public SpellMediumType mediumType;
+        public float minimumEnergy;
+        public RayBehaviour rayPrefab;
+        [SerializeField] private RayBehaviour currentRay;
+        public GameObject boxPrefab;
+        public GameObject cylinderPrefab;
+        public ProjectileBehaviour projectilePrefab;
+
+
+        public void HandleCastEvent(Caster.CastEvent castEvent)
+        {
+            switch (mediumType)
+            {
+                case SpellMediumType.Direct:
+                    Debug.Log($"Cast on {castEvent.currTarget}");
+                    break;
+                case SpellMediumType.Ray:
+                    HandleRaySpell(castEvent);
+                    break;
+                case SpellMediumType.Shape:
+                    break;
+                case SpellMediumType.Projectile:
+                    HandleProjectile(castEvent);
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void HandleProjectile(Caster.CastEvent castEvent)
+        {
+            if (castEvent.state == Caster.CastState.End)
+            {
+                var origin = castEvent.caster.transform.position;
+                var dir = castEvent.currPos - origin;
+                var proj = Instantiate(projectilePrefab);
+                proj.transform.position = origin;
+                proj.velocity = dir.normalized * 10f;
+                proj.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
+                proj.remainingTime = 5f;
+                proj.triggerRadius = 0.5f;
+                proj.triggerCountBeforeKill = -1;
+            }
+        }
+
+        private void HandleRaySpell(Caster.CastEvent castEvent)
+        {
+            var origin = castEvent.caster.transform.position;
+            var dir = castEvent.currPos - origin;
+            if (currentRay == null)
+            {
+                currentRay = Instantiate(rayPrefab);
+                currentRay.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
+            }
+            currentRay.direction = dir;
+            currentRay.origin = origin;
+            if (castEvent.state == Caster.CastState.End)
+            {
+                Destroy(currentRay.gameObject);
+            }
+        }
     }
 }

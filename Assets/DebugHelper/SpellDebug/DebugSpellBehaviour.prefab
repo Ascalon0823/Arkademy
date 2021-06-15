@@ -43,4 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2521dade9f84104b752594e32ebfa90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetType: 0
+  mediumType: 3
+  minimumEnergy: 0
+  rayPrefab: {fileID: 8314882204179149364, guid: 16b47ecca600028479cc9a1793f9beda, type: 3}
+  currentRay: {fileID: 0}
+  boxPrefab: {fileID: 5175803163952987210, guid: edcc699d29cbfa748b2e7173997edcd7, type: 3}
+  cylinderPrefab: {fileID: 8569330214314032879, guid: 8d40c27c3a54a474b81c47949568416b, type: 3}
+  projectilePrefab: {fileID: 39110825404347029, guid: 94a52615ca4c8254abd2adee16643702, type: 3}

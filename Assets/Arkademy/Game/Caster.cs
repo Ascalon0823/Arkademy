@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Arkademy.Game{
+namespace Arkademy.Game
+{
     public class Caster : MonoBehaviour
     {
         public enum CastState
@@ -13,6 +14,7 @@ namespace Arkademy.Game{
             End,
             Cancel
         }
+
         [Serializable]
         public struct CastEvent
         {
@@ -26,30 +28,27 @@ namespace Arkademy.Game{
         }
 
         public SpellBehaviour loadedSpell;
-
+        public float energy;
+        public float maxEnergy;
+        public float energyRegen;
+        public float timeScale;
+        public float enegryOutputRate;
         public void HandleCastEvent(CastEvent castEvent)
         {
             if (loadedSpell == null)
             {
                 return;
             }
-            switch (loadedSpell.targetType)
+
+            loadedSpell.HandleCastEvent(castEvent);
+        }
+
+        private void Update()
+        {
+            if (energy < maxEnergy)
             {
-                case SpellTargetType.Objects:
-                    Debug.Log($"Cast on {castEvent.originTarget}");
-                    break;
-                case SpellTargetType.Direction:
-                    var casterPos = castEvent.caster.transform.position;
-                    Debug.DrawRay(casterPos,castEvent.currPos-casterPos);
-                    break;
-                case SpellTargetType.Area:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                energy = Mathf.Min(energy + energyRegen * Time.deltaTime * timeScale, maxEnergy);
             }
         }
-        
     }
-
 }
-
