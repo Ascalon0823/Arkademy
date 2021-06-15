@@ -8,7 +8,8 @@ namespace Arkademy.Game
         Direct,
         Ray,
         Shape,
-        Projectile
+        Projectile,
+        Spray
     }
 
     public class SpellBehaviour : MonoBehaviour
@@ -36,7 +37,8 @@ namespace Arkademy.Game
                     break;
                 case SpellMediumType.Projectile:
                     HandleProjectile(castEvent);
-
+                    break;
+                case SpellMediumType.Spray:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -55,7 +57,7 @@ namespace Arkademy.Game
                 proj.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
                 proj.remainingTime = 5f;
                 proj.triggerRadius = 0.5f;
-                proj.triggerCountBeforeKill = -1;
+                proj.triggerCountBeforeKill = 2;
             }
         }
 

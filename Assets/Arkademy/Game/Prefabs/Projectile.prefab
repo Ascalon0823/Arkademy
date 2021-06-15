@@ -99,7 +99,7 @@ MonoBehaviour:
   acceleration: {x: 0, y: 0, z: 0}
   triggerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   triggerCountBeforeKill: 0
   triggerRadius: 0
   timeScale: 1

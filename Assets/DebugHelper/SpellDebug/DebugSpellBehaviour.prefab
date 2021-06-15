@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mediumType: 3
   minimumEnergy: 0
-  rayPrefab: {fileID: 8314882204179149364, guid: 16b47ecca600028479cc9a1793f9beda, type: 3}
+  rayPrefab: {fileID: 2163939842287550229, guid: 16b47ecca600028479cc9a1793f9beda, type: 3}
   currentRay: {fileID: 0}
   boxPrefab: {fileID: 5175803163952987210, guid: edcc699d29cbfa748b2e7173997edcd7, type: 3}
   cylinderPrefab: {fileID: 8569330214314032879, guid: 8d40c27c3a54a474b81c47949568416b, type: 3}
