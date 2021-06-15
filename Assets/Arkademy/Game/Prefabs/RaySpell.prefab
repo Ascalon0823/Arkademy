@@ -144,10 +144,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   origin: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 0}
-  maxDistance: 0
+  maxDistance: 1000
   triggerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   lineRenderer: {fileID: 8314882204179149364}
   width: 0.1
-  pierceCount: 0
+  pierceCount: 1

@@ -31,7 +31,7 @@ namespace Arkademy.Game
             hits = hits.Where(x=>!Ignores.Contains(x.collider)).OrderBy(x => Vector3.Distance(x.point, origin)).ToArray();
             var destination = hits.Length>pierceCount
                 ? hits[pierceCount].point
-                : origin + direction.normalized * 1000f;
+                : origin + direction.normalized * maxDistance;
             for (var i = 0; i <= Mathf.Min(pierceCount, hits.Length-1);i++)
             {
                 Debug.Log($"Ray hits {hits[i].collider.name}");
