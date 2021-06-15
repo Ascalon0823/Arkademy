@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2521dade9f84104b752594e32ebfa90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mediumType: 3
+  mediumType: 1
   minimumEnergy: 0
   rayPrefab: {fileID: 2163939842287550229, guid: 16b47ecca600028479cc9a1793f9beda, type: 3}
   currentRay: {fileID: 0}

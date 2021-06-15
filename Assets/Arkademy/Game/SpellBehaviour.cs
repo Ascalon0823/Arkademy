@@ -51,6 +51,7 @@ namespace Arkademy.Game
             {
                 var origin = castEvent.caster.transform.position;
                 var dir = castEvent.currPos - origin;
+                dir = Vector3.ProjectOnPlane(dir, Vector3.up);
                 var proj = Instantiate(projectilePrefab);
                 proj.transform.position = origin;
                 proj.velocity = dir.normalized * 10f;
@@ -65,6 +66,7 @@ namespace Arkademy.Game
         {
             var origin = castEvent.caster.transform.position;
             var dir = castEvent.currPos - origin;
+            dir = Vector3.ProjectOnPlane(dir, Vector3.up);
             if (currentRay == null)
             {
                 currentRay = Instantiate(rayPrefab);
