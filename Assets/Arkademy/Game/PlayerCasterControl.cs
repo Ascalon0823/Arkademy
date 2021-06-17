@@ -10,13 +10,15 @@ namespace Arkademy.Game
         [SerializeField] private Caster.CastEvent lastCastEvent;
         private void Update()
         {
+            var aimPlane = new Plane(caster.transform.position, Vector3.up);
+            var cursorPos = PlayerCamera.Current.PointAtPos(null, aimPlane);
             //TODO: proper binding
             if (Input.GetMouseButtonDown(0))
             {
                 lastCastEvent = new Caster.CastEvent
                 {
                     caster = caster,
-                    currPos = PlayerCamera.Current.PointAtPos(),
+                    currPos = cursorPos,
                     originPos = PlayerCamera.Current.PointAtPos(),
                     currTarget = PlayerCamera.Current.PointAtObj(),
                     originTarget = PlayerCamera.Current.PointAtObj(),
@@ -31,7 +33,7 @@ namespace Arkademy.Game
                 lastCastEvent = new Caster.CastEvent
                 {
                     caster = caster,
-                    currPos = PlayerCamera.Current.PointAtPos(),
+                    currPos = cursorPos,
                     originPos = lastCastEvent.originPos,
                     currTarget = PlayerCamera.Current.PointAtObj(),
                     originTarget = lastCastEvent.originTarget,
@@ -46,7 +48,7 @@ namespace Arkademy.Game
                 lastCastEvent = new Caster.CastEvent
                 {
                     caster = caster,
-                    currPos = PlayerCamera.Current.PointAtPos(),
+                    currPos = cursorPos,
                     originPos = lastCastEvent.originPos,
                     currTarget = PlayerCamera.Current.PointAtObj(),
                     originTarget = lastCastEvent.originTarget,

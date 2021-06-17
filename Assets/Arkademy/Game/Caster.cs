@@ -28,6 +28,7 @@ namespace Arkademy.Game
         }
 
         public SpellBehaviour loadedSpell;
+        public CastEvent lastCastEvent;
         public float energy;
         public float maxEnergy;
         public float energyRegen;
@@ -41,6 +42,7 @@ namespace Arkademy.Game
             }
 
             loadedSpell.HandleCastEvent(castEvent);
+            lastCastEvent = castEvent;
         }
 
         private void Update()

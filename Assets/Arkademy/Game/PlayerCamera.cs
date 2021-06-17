@@ -18,9 +18,11 @@ namespace Arkademy.Game
         {
             return useCamera.ScreenPointToRay(screenPos ?? Input.mousePosition);
         }
-        public Vector3 PointAtPos(Vector3? screenPos = null)
+        
+        
+        public Vector3 PointAtPos(Vector3? screenPos = null, Plane? aimPlane = null)
         {
-            var zeroPlane = new Plane(Vector3.up, Vector3.zero);
+            var zeroPlane = aimPlane??new Plane(Vector3.up, Vector3.zero);
             var pointingRay = GetRay(screenPos);
             zeroPlane.Raycast(pointingRay, out var enter);
             return pointingRay.GetPoint(enter);

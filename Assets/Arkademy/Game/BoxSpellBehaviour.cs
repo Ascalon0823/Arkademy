@@ -11,11 +11,16 @@ namespace Arkademy.Game
         private void Update()
         {
             var t = transform;
+            
             foreach (var c in Physics.OverlapBox(t.position, t.localScale/2f,Quaternion.identity,triggerMask)
                 .Where(x=>!Ignores.Contains(x)))
             {
-                Debug.Log($"Ray hits {c.name}");
+                Debug.Log($"Box hits {c.name}");
             }
+        }
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireCube(transform.position,transform.localScale);
         }
     }
 }

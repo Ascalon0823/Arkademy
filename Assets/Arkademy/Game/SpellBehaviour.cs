@@ -9,7 +9,8 @@ namespace Arkademy.Game
         Ray,
         Box,
         Projectile,
-        Spray
+        Spray,
+        Capsule
     }
 
     public class SpellBehaviour : MonoBehaviour
@@ -20,8 +21,11 @@ namespace Arkademy.Game
         [SerializeField] private RayBehaviour currentRay;
         public BoxSpellBehaviour boxPrefab;
         [SerializeField] private BoxSpellBehaviour currentBox;
-        public GameObject cylinderPrefab;
+        public CapsuleSpellBehaviour capsulePrefab;
+        [SerializeField] private CapsuleSpellBehaviour currCapsule;
         public ProjectileBehaviour projectilePrefab;
+        public SpraySpellBehaviour sprayPrefab;
+        [SerializeField] private SpraySpellBehaviour currSpray;
 
 
         public void HandleCastEvent(Caster.CastEvent castEvent)
@@ -41,22 +45,57 @@ namespace Arkademy.Game
                     HandleProjectile(castEvent);
                     break;
                 case SpellMediumType.Spray:
+                    HandleSpray(castEvent);
+                    break;
+                case SpellMediumType.Capsule:
+                    HandleCapsule(castEvent);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        private void HandleSpray(Caster.CastEvent castEvent)
+        {
+            if (currSpray == null)
+            {
+                currSpray = Instantiate(sprayPrefab);
+                currSpray.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
+            }
+            var origin = castEvent.caster.transform.position;
+            var displacement = castEvent.currPos -origin;
+            displacement = Vector3.ProjectOnPlane(displacement, Vector3.up);
+            var dir = displacement.normalized;
+            currSpray.transform.position = origin;
+            currSpray.transform.forward = dir;
+            if (castEvent.state == Caster.CastState.End)
+            {
+                Destroy(currSpray.gameObject);
+            }
+        }
+        private void HandleCapsule(Caster.CastEvent castEvent)
+        {
+            if (currCapsule == null)
+            {
+                currCapsule = Instantiate(capsulePrefab);
+                currCapsule.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
+                currCapsule.transform.position = castEvent.originPos;
+            }
+            if (castEvent.state == Caster.CastState.End)
+            {
+                Destroy(currCapsule.gameObject);
+            }
+        }
         private void HandleProjectile(Caster.CastEvent castEvent)
         {
             if (castEvent.state == Caster.CastState.End)
             {
                 var origin = castEvent.caster.transform.position;
                 var dir = castEvent.currPos - origin;
-                dir = Vector3.ProjectOnPlane(dir, Vector3.up);
+                dir = Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
                 var proj = Instantiate(projectilePrefab);
                 proj.transform.position = origin;
-                proj.velocity = dir.normalized * 10f;
+                proj.velocity = dir * 10f;
                 proj.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
                 proj.remainingTime = 5f;
                 proj.triggerRadius = 0.5f;
@@ -68,7 +107,7 @@ namespace Arkademy.Game
         {
             var origin = castEvent.caster.transform.position;
             var dir = castEvent.currPos - origin;
-            dir = Vector3.ProjectOnPlane(dir, Vector3.up);
+            dir = Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
             if (currentRay == null)
             {
                 currentRay = Instantiate(rayPrefab);

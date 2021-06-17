@@ -43,11 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2521dade9f84104b752594e32ebfa90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mediumType: 2
+  mediumType: 4
   minimumEnergy: 0
   rayPrefab: {fileID: 2163939842287550229, guid: 16b47ecca600028479cc9a1793f9beda, type: 3}
   currentRay: {fileID: 0}
   boxPrefab: {fileID: 8834422254969970156, guid: edcc699d29cbfa748b2e7173997edcd7, type: 3}
   currentBox: {fileID: 0}
-  cylinderPrefab: {fileID: 8569330214314032879, guid: 8d40c27c3a54a474b81c47949568416b, type: 3}
+  capsulePrefab: {fileID: 5501079177905365439, guid: 8d40c27c3a54a474b81c47949568416b, type: 3}
+  currCapsule: {fileID: 0}
   projectilePrefab: {fileID: 39110825404347029, guid: 94a52615ca4c8254abd2adee16643702, type: 3}
+  sprayPrefab: {fileID: 2221405089802525633, guid: 6560278ea95ea854fb773d6d0431362f, type: 3}
+  currSpray: {fileID: 0}

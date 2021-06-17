@@ -42,5 +42,13 @@ namespace Arkademy.Game
             lineRenderer.SetPosition(0, Vector3.zero);
             lineRenderer.SetPosition(1, destination - origin);
         }
+        
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawLine(origin + Vector3.Cross(Vector3.up, direction.normalized) * width / 2f,
+                origin + direction.normalized * maxDistance);
+            Gizmos.DrawLine(origin - Vector3.Cross(Vector3.up, direction.normalized) * width / 2f,
+                origin + direction.normalized * maxDistance);
+        }
     }
 }
