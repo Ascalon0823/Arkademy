@@ -27,7 +27,7 @@ namespace Arkademy.Game
             {
                 return;
             }
-            mesh.SetMesh(angle,radius,resolution);
+            mesh.UpdateMesh(angle,radius,resolution);
             var origin = transform.position;
             var f = transform.forward;
             var colliders = new HashSet<Collider>();
