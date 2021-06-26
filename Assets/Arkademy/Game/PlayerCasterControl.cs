@@ -13,7 +13,7 @@ namespace Arkademy.Game
             var aimPlane = new Plane(caster.transform.position, Vector3.up);
             var cursorPos = PlayerCamera.Current.PointAtPos(null, aimPlane);
             //TODO: proper binding
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0)&&lastCastEvent.state==Caster.CastState.End)
             {
                 lastCastEvent = new Caster.CastEvent
                 {
@@ -26,6 +26,11 @@ namespace Arkademy.Game
                     timePassed = 0f
                 };
                 caster.HandleCastEvent(lastCastEvent);
+                return;
+            }
+
+            if (lastCastEvent.state == Caster.CastState.End)
+            {
                 return;
             }
             if (Input.GetMouseButtonUp(0))

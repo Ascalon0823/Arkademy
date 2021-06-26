@@ -15,6 +15,7 @@ namespace Arkademy.Game
         [SerializeField] private bool buildOnStart;
         [SerializeField] private bool blockByScene;
         [SerializeField] private LayerMask blockBy;
+        [SerializeField] private int edgeFindIteration;
         private void Start()
         {
             if (!buildOnStart)
@@ -58,11 +59,12 @@ namespace Arkademy.Game
             var tri = new List<int>();
             for (var i = 0; i <= angle / resolution; i++)
             {
+                
                 var curr = i * resolution - angle / 2f;
                 var dest = Quaternion.Euler(0f, curr, 0f) * Vector3.forward * radius;
                 if (Physics.Raycast(transform.position, transform.rotation*dest.normalized, out var hit, radius, blockBy))
                 {
-                    dest =  hit.point - transform.position;
+                    dest =  transform.InverseTransformPoint(hit.point);
                 }
                 verts.Add(dest);
                 normal.Add(Vector3.up);

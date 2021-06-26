@@ -57,7 +57,15 @@ namespace Arkademy.Game
 
         private void HandleSpray(Caster.CastEvent castEvent)
         {
-            if (currSpray == null)
+            if (castEvent.state == Caster.CastState.End||castEvent.state == Caster.CastState.Cancel)
+            {
+                if (currSpray)
+                {
+                    Destroy(currSpray.gameObject);
+                }
+                return;
+            }
+            if (!currSpray)
             {
                 currSpray = Instantiate(sprayPrefab);
                 currSpray.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
@@ -68,69 +76,88 @@ namespace Arkademy.Game
             var dir = displacement.normalized;
             currSpray.transform.position = origin;
             currSpray.transform.forward = dir;
-            if (castEvent.state == Caster.CastState.End)
-            {
-                Destroy(currSpray.gameObject);
-            }
+            castEvent.caster.ConsumeEnergy(minimumEnergy*Time.deltaTime);
+            
         }
         private void HandleCapsule(Caster.CastEvent castEvent)
         {
-            if (currCapsule == null)
+            if (castEvent.state == Caster.CastState.End||castEvent.state == Caster.CastState.Cancel)
+            {
+                if (currCapsule)
+                {
+                    Destroy(currCapsule.gameObject); 
+                }
+                return;
+            }
+            if (!currCapsule)
             {
                 currCapsule = Instantiate(capsulePrefab);
                 currCapsule.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
                 currCapsule.transform.position = castEvent.originPos;
             }
-            if (castEvent.state == Caster.CastState.End)
-            {
-                Destroy(currCapsule.gameObject);
-            }
+            castEvent.caster.ConsumeEnergy(minimumEnergy*Time.deltaTime);
+          
         }
         private void HandleProjectile(Caster.CastEvent castEvent)
         {
-            if (castEvent.state == Caster.CastState.End)
-            {
-                var origin = castEvent.caster.transform.position;
-                var dir = castEvent.currPos - origin;
-                dir = Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
-                var proj = Instantiate(projectilePrefab);
-                proj.transform.position = origin;
-                proj.velocity = dir * 10f;
-                proj.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
-                proj.remainingTime = 5f;
-                proj.triggerRadius = 0.5f;
-                proj.triggerCountBeforeKill = 2;
-            }
+            if (castEvent.state != Caster.CastState.End) return;
+            var origin = castEvent.caster.transform.position;
+            var dir = castEvent.currPos - origin;
+            dir = Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
+            var proj = Instantiate(projectilePrefab);
+            proj.transform.position = origin;
+            proj.velocity = dir * 10f;
+            proj.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
+            proj.remainingTime = 5f;
+            proj.triggerRadius = 0.5f;
+            proj.triggerCountBeforeKill = 2;
+            castEvent.caster.ConsumeEnergy(minimumEnergy);
         }
 
         private void HandleRaySpell(Caster.CastEvent castEvent)
         {
+            if (castEvent.state == Caster.CastState.End||castEvent.state == Caster.CastState.Cancel)
+            {
+                if (currentRay)
+                {
+                    Destroy(currentRay.gameObject); 
+                }
+                return;
+            }
             var origin = castEvent.caster.transform.position;
             var dir = castEvent.currPos - origin;
             dir = Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
-            if (currentRay == null)
+            if (!currentRay)
             {
                 currentRay = Instantiate(rayPrefab);
                 currentRay.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
             }
             currentRay.direction = dir;
             currentRay.origin = origin;
-            if (castEvent.state == Caster.CastState.End)
-            {
-                Destroy(currentRay.gameObject);
-            }
+            castEvent.caster.ConsumeEnergy(minimumEnergy*Time.deltaTime);
+           
         }
 
         private void HandleBoxSpell(Caster.CastEvent castEvent)
         {
-            if (currentBox == null)
+            if (castEvent.state == Caster.CastState.End||castEvent.state == Caster.CastState.Cancel)
+            {
+                
+                if (currentBox)
+                {
+                    Destroy(currentBox.gameObject);
+                }
+                return;
+            }
+            if (!currentBox)
             {
                 currentBox = Instantiate(boxPrefab);
                 currentBox.Ignores.Add(castEvent.caster.GetComponentInChildren<Collider>());
                 currentBox.transform.position = castEvent.originPos;
                 currentBox.transform.localScale = Vector3.one * 2.5f;
             }
-            if (castEvent.state == Caster.CastState.End)
+            castEvent.caster.ConsumeEnergy(minimumEnergy*Time.deltaTime);
+            if (castEvent.state == Caster.CastState.End||castEvent.state == Caster.CastState.Cancel)
             {
                 Destroy(currentBox.gameObject);
             }

@@ -9,9 +9,9 @@ namespace Arkademy.Game
     {
         public enum CastState
         {
+            End,
             Begin,
             Casting,
-            End,
             Cancel
         }
 
@@ -34,6 +34,8 @@ namespace Arkademy.Game
         public float energyRegen;
         public float timeScale;
         public float enegryOutputRate;
+        public float regenRecoverTime;
+        [SerializeField]private float regenUnblockTimer;
         public void HandleCastEvent(CastEvent castEvent)
         {
             if (loadedSpell == null)
@@ -41,12 +43,27 @@ namespace Arkademy.Game
                 return;
             }
 
+            if (energy <= 0f)
+            {
+                castEvent.state = CastState.Cancel;
+            }
             loadedSpell.HandleCastEvent(castEvent);
             lastCastEvent = castEvent;
         }
 
+        public void ConsumeEnergy(float amount)
+        {
+            energy = Mathf.Max(0f, energy - amount);
+            regenUnblockTimer = regenRecoverTime;
+        }
+
         private void Update()
         {
+            if (regenUnblockTimer >= 0)
+            {
+                regenUnblockTimer -= regenRecoverTime * timeScale * Time.deltaTime;
+                return;
+            }
             if (energy < maxEnergy)
             {
                 energy = Mathf.Min(energy + energyRegen * Time.deltaTime * timeScale, maxEnergy);
