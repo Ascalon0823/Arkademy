@@ -299,7 +299,6 @@ Transform:
   m_Children:
   - {fileID: 1366180377}
   - {fileID: 1062127161}
-  - {fileID: 2068779989}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1752,6 +1751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1994354962}
+  - component: {fileID: 1994354963}
   m_Layer: 0
   m_Name: Env
   m_TagString: Untagged
@@ -1781,49 +1781,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2068779988
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2068779989}
-  - component: {fileID: 2068779990}
-  m_Layer: 0
-  m_Name: GridDebugger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2068779989
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068779988}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 118083521}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2068779990
+--- !u!114 &1994354963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068779988}
+  m_GameObject: {fileID: 1994354961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 040a2340e086a77478366b27f1336f88, type: 3}
+  m_Script: {fileID: 11500000, guid: a8e4e4d188e840d592d87cabb315f84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size_x: 100
+  size_y: 100
+  defaultCell:
+    walkable: 1
+  anchor: {x: 0, y: 0, z: 0}
+  cellSize: {x: 1, y: 0, z: 1}
+  mapBuilder:
+    seed: -610030939
+    generateNewSeed: 0
+    walkablePercent: 0.5
+    frequency: 8
 --- !u!1001 &2195999743403792138
 PrefabInstance:
   m_ObjectHideFlags: 0

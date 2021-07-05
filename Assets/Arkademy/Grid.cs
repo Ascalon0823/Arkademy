@@ -3,7 +3,7 @@ namespace Arkademy
     public class Grid<T>
     {
         private readonly T[,] data;
-
+        
         public Grid(int x, int y)
         {
             data = new T[x, y];
@@ -12,13 +12,7 @@ namespace Arkademy
         public Grid(int x, int y, T val)
         {
             data = new T[x, y];
-            for (var i = 0; i < x; i++)
-            {
-                for (var j = 0; j < y; j++)
-                {
-                    data[i, j] = val;
-                }
-            }
+            Fill(val);
         }
 
         public Grid(T[,] d)
@@ -35,56 +29,34 @@ namespace Arkademy
         {
             return data.GetLength(1);
         }
-
-        public bool TryGet(int x, int y, out T val)
-        {
-            val = default;
-            if (data == null)
-            {
-                return false;
-            }
-
-            if (x < 0 || x >= data.GetLength(0) || y < 0 || y >= data.GetLength(1))
-            {
-                return false;
-            }
-
-            val = data[x, y];
-            return true;
-        }
         
-        public void Set(int x, int y, T val)
+        public T this[int x,int y]
         {
-            if (data == null)
-            {
-                return;
-            }
-
-            if (x < 0 || x >= data.GetLength(0) || y < 0 || y >= data.GetLength(1))
-            {
-                return;
-            }
-
-            data[x, y] = val;
+            get => data[x, y];
+            set => data[x, y] = value;
         }
+
 
         public void Fill(T val)
         {
+            Iterate((i, j) => data[i, j] = val);
+        }
+        
+        public void Iterate(System.Action<int, int> action)
+        {
             if (data == null)
             {
                 return;
             }
 
-            for (var i = 0; i < data.GetLength(0); i++)
+            for (var j = 0; j < data.GetLength(1); j++)
             {
-                for (var j = 0; j < data.GetLength(1); j++)
+                for (var i = 0; i < data.GetLength(0); i++)
                 {
-                    data[i, j] = val;
+                    action?.Invoke(i, j);
                 }
             }
         }
-
-
         public override string ToString()
         {
             if (data == null)
