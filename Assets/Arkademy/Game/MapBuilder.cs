@@ -21,11 +21,12 @@ namespace Arkademy.Game
             Random.InitState(seed);
             var percent = walkablePercent;
             var freq = frequency;
+            var org = (Random.insideUnitCircle+Vector2.one)/2*Random.Range(0,10000);
             map.Iterate((i, j) =>
             {
                 var mapCell = map[i, j];
-                mapCell.walkable = Mathf.PerlinNoise(1.0f * i / map.Width() * freq
-                    , 1.0f * j / map.Height() * freq) < percent;
+                mapCell.walkable = Mathf.PerlinNoise( org.x + 1.0f * i / map.Width() * freq
+                    ,  org.y + 1.0f * j / map.Height() * freq) < percent;
                 map[i, j] = mapCell;
             });
         }
