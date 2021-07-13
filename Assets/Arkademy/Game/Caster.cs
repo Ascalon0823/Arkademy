@@ -27,7 +27,6 @@ namespace Arkademy.Game
             public float timePassed;
         }
 
-        public SpellObject currSpell;
         public SpellBehaviour loadedSpell;
         public CastEvent lastCastEvent;
         public float energy;
