@@ -15,6 +15,7 @@ namespace Arkademy.Game
         /// Center of the Map
         /// </summary>
         public Vector3 Anchor => anchor;
+
         [SerializeField] private Vector3 anchor;
         public Vector3 CellSize => cellSize;
         [SerializeField] private Vector3 cellSize;
@@ -36,28 +37,38 @@ namespace Arkademy.Game
             this.anchor = anchor;
             this.cellSize = cellSize;
         }
+
         public Vector3 Extend()
         {
-            return new Vector3(Width()*cellSize.x/2f,0f,Height()*cellSize.z/2f);
+            return new Vector3(Width() * cellSize.x / 2f, 0f, Height() * cellSize.z / 2f);
         }
-   
+
         public Vector3 CellExtend()
         {
             return cellSize / 2f;
         }
+
         public Vector3 GetWorldPos(int x, int y)
         {
-            return anchor - Extend() + new Vector3(x * cellSize.x, 0f, y * cellSize.z) + CellExtend();
+            return anchor + new Vector3(x * cellSize.x, 0f, y * cellSize.z) + CellExtend();
         }
 
-        public Vector2 FromWorldPos(Vector3 pos)
+        public Vector3 GetWorldPos(Vector2Int coord)
         {
-            return Vector2.one;
+            return anchor + new Vector3(coord.x * cellSize.x, 0f, coord.y * cellSize.z) + CellExtend();
+        }
+
+        public Vector2Int FromWorldPos(Vector3 pos)
+        {
+            var mapSpacePos = pos - anchor;
+            return new Vector2Int(Mathf.FloorToInt(mapSpacePos.x / cellSize.x),
+                Mathf.FloorToInt(mapSpacePos.z / cellSize.z));
         }
 
         public MapCell GetCellFromWorldPos(Vector3 pos)
         {
-            return default;
+            var coord = FromWorldPos(pos);
+            return this[coord.x, coord.y];
         }
     }
 }
