@@ -1800,10 +1800,11 @@ MonoBehaviour:
   anchor: {x: 0, y: 0, z: 0}
   cellSize: {x: 1, y: 0, z: 1}
   mapBuilder:
-    seed: -610030939
-    generateNewSeed: 0
+    seed: 50789867
+    generateNewSeed: 1
     walkablePercent: 0.5
     frequency: 8
+    offSetRange: 10000
 --- !u!1001 &2195999743403792138
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -27,13 +27,13 @@ namespace Arkademy.Game
             public float timePassed;
         }
 
+        public SpellObject currSpell;
         public SpellBehaviour loadedSpell;
         public CastEvent lastCastEvent;
         public float energy;
         public float maxEnergy;
         public float energyRegen;
         public float timeScale;
-        public float enegryOutputRate;
         public float regenRecoverTime;
         [SerializeField]private float regenUnblockTimer;
         public void HandleCastEvent(CastEvent castEvent)
@@ -43,7 +43,7 @@ namespace Arkademy.Game
                 return;
             }
 
-            if (energy <= 0f)
+            if (energy <= loadedSpell.minimumEnergy)
             {
                 castEvent.state = CastState.Cancel;
             }

@@ -13,10 +13,20 @@ namespace Arkademy.Game
         Capsule
     }
 
+    public enum SpellTargetType
+    {
+        Object,
+        Direction,
+        Location
+    }
+
     public class SpellBehaviour : MonoBehaviour
     {
         public SpellMediumType mediumType;
         public float minimumEnergy;
+        public int damage;
+        
+        
         public RayBehaviour rayPrefab;
         [SerializeField] private RayBehaviour currentRay;
         public BoxSpellBehaviour boxPrefab;
@@ -26,14 +36,14 @@ namespace Arkademy.Game
         public ProjectileBehaviour projectilePrefab;
         public SpraySpellBehaviour sprayPrefab;
         [SerializeField] private SpraySpellBehaviour currSpray;
-
+        
 
         public void HandleCastEvent(Caster.CastEvent castEvent)
         {
             switch (mediumType)
             {
                 case SpellMediumType.Direct:
-                    Debug.Log($"Cast on {castEvent.currTarget}");
+                    HandleDirect(castEvent);
                     break;
                 case SpellMediumType.Ray:
                     HandleRaySpell(castEvent);
@@ -53,6 +63,28 @@ namespace Arkademy.Game
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void HandleDirect(Caster.CastEvent castEvent)
+        {
+            if (castEvent.state == Caster.CastState.End||castEvent.state == Caster.CastState.Cancel)
+            {
+                
+                return;
+            }
+
+            if (!castEvent.currTarget)
+            {
+                return;
+            }
+            var a = castEvent.currTarget.GetComponent<Actor>();
+            if (!a)
+            {
+                return;
+                
+            }
+            castEvent.caster.ConsumeEnergy(minimumEnergy*Time.deltaTime);
+            a.TakeDamage(damage*Time.deltaTime);
         }
 
         private void HandleSpray(Caster.CastEvent castEvent)

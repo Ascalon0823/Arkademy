@@ -8,12 +8,13 @@ namespace Arkademy.Game
     {
         [SerializeField] private Caster caster;
         [SerializeField] private Caster.CastEvent lastCastEvent;
+
         private void Update()
         {
             var aimPlane = new Plane(caster.transform.position, Vector3.up);
             var cursorPos = PlayerCamera.Current.PointAtPos(null, aimPlane);
             //TODO: proper binding
-            if (Input.GetMouseButtonDown(0)&&lastCastEvent.state==Caster.CastState.End)
+            if (Input.GetMouseButtonDown(0) && lastCastEvent.state == Caster.CastState.End)
             {
                 lastCastEvent = new Caster.CastEvent
                 {
@@ -33,6 +34,7 @@ namespace Arkademy.Game
             {
                 return;
             }
+
             if (Input.GetMouseButtonUp(0))
             {
                 lastCastEvent = new Caster.CastEvent
@@ -43,11 +45,12 @@ namespace Arkademy.Game
                     currTarget = PlayerCamera.Current.PointAtObj(),
                     originTarget = lastCastEvent.originTarget,
                     state = Caster.CastState.End,
-                    timePassed = 0f
+                    timePassed = lastCastEvent.timePassed
                 };
                 caster.HandleCastEvent(lastCastEvent);
                 return;
             }
+
             if (Input.GetMouseButton(0))
             {
                 lastCastEvent = new Caster.CastEvent
@@ -58,7 +61,7 @@ namespace Arkademy.Game
                     currTarget = PlayerCamera.Current.PointAtObj(),
                     originTarget = lastCastEvent.originTarget,
                     state = Caster.CastState.Casting,
-                    timePassed = 0f
+                    timePassed = lastCastEvent.timePassed + Time.deltaTime
                 };
                 caster.HandleCastEvent(lastCastEvent);
                 return;
