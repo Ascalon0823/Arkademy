@@ -18,7 +18,7 @@ MonoBehaviour:
     tilePrefab: {fileID: 5571039208902936856, guid: eac9abdfcab606942bbe96d76a0be82c, type: 3}
   - max: 55
     tilePrefab: {fileID: 5252277824858911307, guid: b2956e5aa40229b44877d19baab54313, type: 3}
-  - max: 60
+  - max: 65
     tilePrefab: {fileID: 7698240762753344152, guid: e2ee9ad8a6be3a145a8eca779d6736de, type: 3}
   - max: 90
     tilePrefab: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}

@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSeed: 0
   randomWorldSeed: 1
-  currWorldSeed: 1111152221
+  currWorldSeed: 1611385962
   heightSeed: 0
-  randomHeightSeed: 0
-  currHeightSeed: 0
+  randomHeightSeed: 1
+  currHeightSeed: 1012835062
   minHeight: 0
   maxHeight: 100
   perlinScale: {x: 8, y: 8}
   perlinOffset: {x: 0, y: 0}
-  randomOffset: 0
+  randomOffset: 1
