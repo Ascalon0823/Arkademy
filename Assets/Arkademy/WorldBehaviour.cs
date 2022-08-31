@@ -9,6 +9,8 @@ namespace Arkademy
     public class WorldBehaviour : MonoBehaviour
     {
         public static WorldBehaviour Instance;
+        [SerializeField] private WorldBuilder worldBuilder;
+        [SerializeField] private WorldTileObjectPicker tilePicker;
         private World currWorld;
         private GameObject worldGo;
 
@@ -25,7 +27,7 @@ namespace Arkademy
 
         private void Start()
         {
-            currWorld = World.Create(100);
+            currWorld = worldBuilder.BuildWorld(100);
             Build();
         }
 
@@ -39,17 +41,10 @@ namespace Arkademy
             worldGo = new GameObject();
             currWorld.Iterate((x, y) =>
             {
-                var go = GetTileObject(currWorld[x, y]);
+                var go = tilePicker.GetTileObject(currWorld[x, y]);
                 go.transform.position = currWorld.GetPos(x, y);
                 go.transform.SetParent(worldGo.transform);
             });
-        }
-
-        private GameObject GetTileObject(WorldTile tile)
-        {
-            var go = new GameObject();
-            go.name = tile.Altitude.ToString();
-            return go;
         }
     }
 }

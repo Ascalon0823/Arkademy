@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Arkademy
 {
+
     public struct WorldTile
     {
         public int Altitude;
@@ -25,7 +26,7 @@ namespace Arkademy
 
         public static World Create(int size)
         {
-            return new World(size, size, Vector3.zero, new Vector3(1, 0, 1));
+            return new World(size, size, Vector3.zero, new Vector3(1, 1, 0));
         }
     }
 }

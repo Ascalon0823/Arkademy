@@ -528,6 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d156fddeed265488009f6d1c637ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldBuilder: {fileID: 11400000, guid: 5c492941195659f4d96e1e9ad27b3344, type: 2}
 --- !u!4 &809876500
 Transform:
   m_ObjectHideFlags: 0
