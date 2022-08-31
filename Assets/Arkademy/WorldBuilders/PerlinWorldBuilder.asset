@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: PerlinWorldBuilder
   m_EditorClassIdentifier: 
   worldSeed: 0
-  randomWorldSeed: 0
-  currWorldSeed: 0
+  randomWorldSeed: 1
+  currWorldSeed: 1111152221
   heightSeed: 0
   randomHeightSeed: 0
   currHeightSeed: 0
   minHeight: 0
   maxHeight: 100
+  perlinScale: {x: 8, y: 8}
+  perlinOffset: {x: 0, y: 0}
+  randomOffset: 0

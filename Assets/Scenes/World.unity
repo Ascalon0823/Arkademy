@@ -529,6 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldBuilder: {fileID: 11400000, guid: 5c492941195659f4d96e1e9ad27b3344, type: 2}
+  tilePicker: {fileID: 11400000, guid: 5365d48a7f0ed2a46adc0beb789f7d73, type: 2}
 --- !u!4 &809876500
 Transform:
   m_ObjectHideFlags: 0
