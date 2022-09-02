@@ -1,4 +1,5 @@
-﻿using CGS.Grid;
+﻿using System.Collections.Generic;
+using CGS.Grid;
 using UnityEngine;
 
 namespace Arkademy
@@ -6,10 +7,18 @@ namespace Arkademy
     public struct WorldTile
     {
         public int Altitude;
+        public int TectonicIdx;
     }
 
     public class World : SquareGrid2D<WorldTile>
     {
+        public struct TectonicPlate
+        {
+            public Vector2Int Origin;
+            public Vector2 Direction;
+        }
+
+        public readonly List<TectonicPlate> TectonicPlates = new List<TectonicPlate>();
         public World(int x, int y, Vector3 anchorPos, Vector3 cellSize) : base(x, y, anchorPos, cellSize)
         {
         }

@@ -7,6 +7,11 @@ namespace Arkademy
     [CreateAssetMenu(menuName = "World Builder/Create Perlin World Builder", fileName = "NewPerlinWorldBuilder")]
     public class PerlinWorldBuilder : WorldBuilder
     {
+        [SerializeField] protected int heightSeed;
+        [SerializeField] protected bool randomHeightSeed;
+        [SerializeField] protected int currHeightSeed;
+        [SerializeField] protected int minHeight;
+        [SerializeField] protected int maxHeight;
         [SerializeField] protected Vector2 perlinScale;
         [SerializeField] protected Vector2 perlinOffset;
         [SerializeField] protected bool randomOffset;

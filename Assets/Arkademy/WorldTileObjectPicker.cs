@@ -23,7 +23,7 @@ namespace Arkademy
 
             foreach (var mapping in tileMapping)
             {
-                if (mapping.max > tile.Altitude && mapping.tilePrefab)
+                if (mapping.max >= tile.Altitude && mapping.tilePrefab)
                 {
                     return Instantiate(mapping.tilePrefab);
                 }

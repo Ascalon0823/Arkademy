@@ -412,7 +412,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 18.9375
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d156fddeed265488009f6d1c637ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldBuilder: {fileID: 11400000, guid: 5c492941195659f4d96e1e9ad27b3344, type: 2}
+  worldBuilder: {fileID: 11400000, guid: 267ca64c7d097974dbd7556bf380a0f5, type: 2}
   tilePicker: {fileID: 11400000, guid: 5365d48a7f0ed2a46adc0beb789f7d73, type: 2}
 --- !u!4 &809876500
 Transform:
