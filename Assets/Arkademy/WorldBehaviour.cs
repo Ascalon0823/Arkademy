@@ -9,7 +9,11 @@ namespace Arkademy
     public class WorldBehaviour : MonoBehaviour
     {
         public static WorldBehaviour Instance;
+        [SerializeField] private int size;
+        
         [SerializeField] private WorldBuilder worldBuilder;
+        [SerializeField] private bool built;
+        [SerializeField] private bool createTile;
         [SerializeField] private WorldTileObjectPicker tilePicker;
         private World currWorld;
         private GameObject worldGo;
@@ -27,11 +31,16 @@ namespace Arkademy
 
         private void Start()
         {
-            currWorld = worldBuilder.BuildWorld(100);
-            Build();
+            currWorld = worldBuilder.BuildWorld(size);
+            built = true;
+            if (createTile)
+            {
+                CreateTiles();
+            }
+            
         }
 
-        private void Build()
+        private void CreateTiles()
         {
             if (worldGo)
             {

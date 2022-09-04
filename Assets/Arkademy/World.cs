@@ -16,6 +16,7 @@ namespace Arkademy
         {
             public Vector2Int Origin;
             public Vector2 Direction;
+            public int Altitude;
         }
 
         public readonly List<TectonicPlate> TectonicPlates = new List<TectonicPlate>();

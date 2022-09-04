@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using csDelaunay;
 
 namespace Arkademy
 {
@@ -28,23 +30,46 @@ namespace Arkademy
         {
             world.TectonicPlates.Clear();
             var numPlates = Random.Range(minAmountPlates, Mathf.Max(minAmountPlates + 1, maxAmountPlates));
+            var points = new List<Vector2f>();
             for (var i = 0; i < numPlates; i++)
             {
-                var x = Random.Range(0, world.Width());
-                var y = Random.Range(0, world.Height());
-                var plate = new World.TectonicPlate
-                {
-                    Origin = new Vector2Int(x, y)
-                };
-                world.TectonicPlates.Add(plate);
+                points.Add(
+                    new Vector2f(
+                        Random.Range(0, world.Width()),
+                        Random.Range(0, world.Height())
+                    )
+                );
             }
 
-            foreach (var plate in world.TectonicPlates)
+            var bounds = new Rectf(0, 0, world.Width(), world.Height());
+            var voronoi = new Voronoi(points, bounds, 5);
+            var dict = new Dictionary<Vector2f, int>();
+            foreach (var site in voronoi.SitesIndexedByLocation.Values)
             {
-                var tile = world[plate.Origin.x, plate.Origin.y];
-                tile.Altitude = 100;
-                world[plate.Origin.x, plate.Origin.y] = tile;
+                var plate = new World.TectonicPlate
+                {
+                    Origin = new Vector2Int(Mathf.FloorToInt(site.x), Mathf.FloorToInt(site.y)),
+                    Altitude = Random.Range(0, 100)
+                };
+                world.TectonicPlates.Add(plate);
+                dict[site.Coord] = world.TectonicPlates.Count - 1;
             }
+
+            var dist = new Func<Vector2f, int, int, float>((Vector2f v, int x, int y) => Vector2.Distance(
+                new Vector2(x, y),
+                new Vector2(v.x, v.y)
+            ));
+
+            world.Iterate((x, y) =>
+            {
+                var tile = world[x, y];
+                var index = dict.Aggregate((min, next) =>
+                    dist(min.Key, x, y) < dist(next.Key, x, y) ? min : next
+                ).Value;
+                tile.Altitude = world.TectonicPlates[index].Altitude;
+                tile.TectonicIdx = index;
+                world[x, y] = tile;
+            });
         }
     }
 }
