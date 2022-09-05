@@ -4,20 +4,19 @@ using UnityEngine;
 
 namespace Arkademy
 {
+    
     [Serializable]
     public struct RangeTileMapping
     {
         public float max;
         public GameObject tilePrefab;
     }
-
-    [CreateAssetMenu(menuName = "Tile Object Picker/Create Tile Object Picker", fileName = "NewWorldTileObjectPicker")]
-    public class WorldTileObjectPicker : ScriptableObject
+    [CreateAssetMenu(menuName = "Tile Prefab Picker/Create Height Map Tile Prefab Picker", fileName = "NewHeightMapTilePicker")]
+    public class HeightMapTilePicker : TilePrefabPicker
     {
-        [SerializeField] protected GameObject fallbackGameObject;
         [SerializeField] protected RangeTileMapping[] tileMappings;
 
-        public virtual GameObject GetTileObject(WorldTile tile)
+        public override GameObject GetTileObject(WorldTile tile)
         {
             var tileMapping = tileMappings.OrderBy(x => x.max);
 
@@ -29,9 +28,7 @@ namespace Arkademy
                 }
             }
 
-            var go = new GameObject();
-            go.name = tile.Altitude.ToString();
-            return go;
+            return null;
         }
     }
 }

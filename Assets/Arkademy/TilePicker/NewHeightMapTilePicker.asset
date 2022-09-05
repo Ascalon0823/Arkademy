@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e395ba04958274f88e7c0072a22272, type: 3}
-  m_Name: RealisticWorldBuilder
+  m_Script: {fileID: 11500000, guid: 506473eca734bee4282fec480a2c4695, type: 3}
+  m_Name: NewHeightMapTilePicker
   m_EditorClassIdentifier: 
-  worldSeed: 0
-  randomWorldSeed: 1
-  currWorldSeed: 1316083157
-  minAmountPlates: 10
-  maxAmountPlates: 15
+  tileMappings: []

@@ -8,6 +8,7 @@ namespace Arkademy
     {
         public int Altitude;
         public int TectonicIdx;
+        public bool TectonicEdge;
     }
 
     public class World : SquareGrid2D<WorldTile>
@@ -15,6 +16,7 @@ namespace Arkademy
         public struct TectonicPlate
         {
             public Vector2Int Origin;
+            public List<Vector2Int> Edges;
             public Vector2 Direction;
             public int Altitude;
         }

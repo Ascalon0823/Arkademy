@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CGS.Grid;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using csDelaunay;
@@ -69,6 +70,29 @@ namespace Arkademy
                 tile.Altitude = world.TectonicPlates[index].Altitude;
                 tile.TectonicIdx = index;
                 world[x, y] = tile;
+            });
+
+            world.Iterate((x, y) =>
+            {
+                var valideNeighbours = new Vector2Int(x, y).Neighbours()
+                    .Where(coord => world.IsValid(coord.x, coord.y))
+                    .Select(coord => world[coord.x, coord.y]);
+                var curr = world[x, y];
+                if (valideNeighbours.Any(neighbour => neighbour.TectonicIdx != curr.TectonicIdx))
+                {
+                    curr.TectonicEdge = true;
+                    var plate = world.TectonicPlates[curr.TectonicIdx];
+                    plate.Edges ??= new List<Vector2Int>();
+                    world.TectonicPlates[curr.TectonicIdx] = plate;
+                    plate.Edges.Add(new Vector2Int(x, y));
+                    
+                }
+                else
+                {
+                    curr.TectonicEdge = false;
+                }
+
+                world[x, y] = curr;
             });
         }
     }

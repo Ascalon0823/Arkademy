@@ -14,7 +14,7 @@ namespace Arkademy
         [SerializeField] private WorldBuilder worldBuilder;
         [SerializeField] private bool built;
         [SerializeField] private bool createTile;
-        [SerializeField] private WorldTileObjectPicker tilePicker;
+        [SerializeField] private TilePrefabPicker tilePicker;
         private World currWorld;
         private GameObject worldGo;
 
@@ -51,6 +51,7 @@ namespace Arkademy
             currWorld.Iterate((x, y) =>
             {
                 var go = tilePicker.GetTileObject(currWorld[x, y]);
+                if (go == null) return;
                 go.transform.position = currWorld.GetPos(x, y);
                 go.transform.SetParent(worldGo.transform);
             });
