@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4dbe689d5b933140a77d06f24bc53f7, type: 3}
   m_Name: NewTectonicTilePrefabPicker
   m_EditorClassIdentifier: 
-  ridgeTile: {fileID: 0}
+  ridgeTile: {fileID: 6207681105844316869, guid: 4c1c3d4280e3f4b459fc3e65483628b2, type: 3}

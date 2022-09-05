@@ -43,7 +43,7 @@ namespace Arkademy
             }
 
             var bounds = new Rectf(0, 0, world.Width(), world.Height());
-            var voronoi = new Voronoi(points, bounds, 5);
+            var voronoi = new Voronoi(points, bounds, 2);
             var dict = new Dictionary<Vector2f, int>();
             foreach (var site in voronoi.SitesIndexedByLocation.Values)
             {

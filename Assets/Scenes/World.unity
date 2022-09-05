@@ -532,7 +532,11 @@ MonoBehaviour:
   worldBuilder: {fileID: 11400000, guid: 267ca64c7d097974dbd7556bf380a0f5, type: 2}
   built: 0
   createTile: 1
-  tilePicker: {fileID: 11400000, guid: 5365d48a7f0ed2a46adc0beb789f7d73, type: 2}
+  tilePickerLayers:
+  - layer: HeightMap
+    tilePicker: {fileID: 11400000, guid: 84a066ae4cc954345b33bbc495400269, type: 2}
+  - layer: TectonicEdge
+    tilePicker: {fileID: 11400000, guid: 5bdeaf49bf39e37489c941438ff6781b, type: 2}
 --- !u!4 &809876500
 Transform:
   m_ObjectHideFlags: 0

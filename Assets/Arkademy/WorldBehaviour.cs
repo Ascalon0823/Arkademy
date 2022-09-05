@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace Arkademy
 {
+    [Serializable]
+    public struct TilePickerLayers
+    {
+        public string layer;
+        public TilePrefabPicker tilePicker;
+    }
     public class WorldBehaviour : MonoBehaviour
     {
         public static WorldBehaviour Instance;
@@ -14,7 +20,8 @@ namespace Arkademy
         [SerializeField] private WorldBuilder worldBuilder;
         [SerializeField] private bool built;
         [SerializeField] private bool createTile;
-        [SerializeField] private TilePrefabPicker tilePicker;
+        [SerializeField] private TilePickerLayers[] tilePickerLayers;
+        private Dictionary<string, GameObject> createdLayers = new Dictionary<string, GameObject>();
         private World currWorld;
         private GameObject worldGo;
 
@@ -46,15 +53,22 @@ namespace Arkademy
             {
                 Destroy(worldGo);
             }
-
-            worldGo = new GameObject();
-            currWorld.Iterate((x, y) =>
+            createdLayers.Clear();
+            worldGo = new GameObject("World");
+            foreach (var layer in tilePickerLayers)
             {
-                var go = tilePicker.GetTileObject(currWorld[x, y]);
-                if (go == null) return;
-                go.transform.position = currWorld.GetPos(x, y);
-                go.transform.SetParent(worldGo.transform);
-            });
+                var layerGo = new GameObject(layer.layer);
+                layerGo.transform.SetParent(worldGo.transform);
+                layerGo.transform.localPosition = Vector3.zero;
+                currWorld.Iterate((x, y) =>
+                {
+                    var go = layer.tilePicker.GetTileObject(currWorld[x, y]);
+                    if (go == null) return;
+                    go.transform.position = currWorld.GetPos(x, y);
+                    go.transform.SetParent(layerGo.transform);
+                });
+            }
+           
         }
     }
 }

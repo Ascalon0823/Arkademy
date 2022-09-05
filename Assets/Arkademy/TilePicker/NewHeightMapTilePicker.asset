@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506473eca734bee4282fec480a2c4695, type: 3}
   m_Name: NewHeightMapTilePicker
   m_EditorClassIdentifier: 
-  tileMappings: []
+  tileMappings:
+  - max: 40
+    tilePrefab: {fileID: 5571039208902936856, guid: eac9abdfcab606942bbe96d76a0be82c, type: 3}
+  - max: 50
+    tilePrefab: {fileID: 5252277824858911307, guid: b2956e5aa40229b44877d19baab54313, type: 3}
+  - max: 60
+    tilePrefab: {fileID: 7698240762753344152, guid: e2ee9ad8a6be3a145a8eca779d6736de, type: 3}
+  - max: 80
+    tilePrefab: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
+  - max: 100
+    tilePrefab: {fileID: 6207681105844316869, guid: 99454dc26a60dfc41b34a2e4f4fe6734, type: 3}
