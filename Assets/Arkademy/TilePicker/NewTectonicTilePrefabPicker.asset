@@ -17,23 +17,15 @@ MonoBehaviour:
   directionObj: {fileID: 7698240762753344152, guid: cd3d19081961bbe4eb65361b7c3fac6b, type: 3}
   oceanEdge:
   - EdgeType: 1
-    Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
+    Obj: {fileID: 3104607809040857018, guid: f6bc1aa7419c8bf42a3eea6b9d56071c, type: 3}
   - EdgeType: 2
     Obj: {fileID: 5571039208902936856, guid: 1e359ebf09ff6b240b6b80042f7b3086, type: 3}
   - EdgeType: 3
     Obj: {fileID: 5571039208902936856, guid: 2dc55221d132f2e4d8faeedccdeed074, type: 3}
-  - EdgeType: 4
-    Obj: {fileID: 5571039208902936856, guid: eac9abdfcab606942bbe96d76a0be82c, type: 3}
-  - EdgeType: 2
-    Obj: {fileID: 5571039208902936856, guid: 1e359ebf09ff6b240b6b80042f7b3086, type: 3}
   groundEdge:
   - EdgeType: 1
     Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
   - EdgeType: 3
     Obj: {fileID: 5571039208902936856, guid: 3f117b7ef27a97046844e4eae2ba84a6, type: 3}
-  - EdgeType: 2
-    Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
-  - EdgeType: 4
-    Obj: {fileID: 7698240762753344152, guid: e2ee9ad8a6be3a145a8eca779d6736de, type: 3}
   - EdgeType: 2
     Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
