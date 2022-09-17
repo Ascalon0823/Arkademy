@@ -6,6 +6,6 @@ namespace Arkademy
 {
     public abstract class TilePrefabPicker : ScriptableObject
     {
-        public abstract GameObject GetTileObject(WorldTile tile);
+        public abstract GameObject GetTileObject(WorldTile tile, World world);
     }
 }

@@ -50,7 +50,8 @@ namespace Arkademy
                 var plate = new World.TectonicPlate
                 {
                     Origin = new Vector2Int(Mathf.FloorToInt(site.x), Mathf.FloorToInt(site.y)),
-                    Altitude = Random.Range(0, 100)
+                    Density = Random.Range(0, 2),
+                    Direction = ((SquareDir) (Random.Range(0, 4) * 2)).ToCoord()
                 };
                 world.TectonicPlates.Add(plate);
                 dict[site.Coord] = world.TectonicPlates.Count - 1;
@@ -67,7 +68,7 @@ namespace Arkademy
                 var index = dict.Aggregate((min, next) =>
                     dist(min.Key, x, y) < dist(next.Key, x, y) ? min : next
                 ).Value;
-                tile.Altitude = world.TectonicPlates[index].Altitude;
+                tile.Altitude = 0;
                 tile.TectonicIdx = index;
                 world[x, y] = tile;
             });
@@ -75,7 +76,7 @@ namespace Arkademy
             world.Iterate((x, y) =>
             {
                 var valideNeighbours = new Vector2Int(x, y).Neighbours()
-                    .Where(coord => world.IsValid(coord.x, coord.y))
+                    .Where(coord => world.IsValid(coord.x, coord.y) && (coord.x == x || coord.y == y))
                     .Select(coord => world[coord.x, coord.y]);
                 var curr = world[x, y];
                 if (valideNeighbours.Any(neighbour => neighbour.TectonicIdx != curr.TectonicIdx))
@@ -85,7 +86,6 @@ namespace Arkademy
                     plate.Edges ??= new List<Vector2Int>();
                     world.TectonicPlates[curr.TectonicIdx] = plate;
                     plate.Edges.Add(new Vector2Int(x, y));
-                    
                 }
                 else
                 {
@@ -94,6 +94,58 @@ namespace Arkademy
 
                 world[x, y] = curr;
             });
+            foreach (var plate in world.TectonicPlates)
+            {
+                foreach (var edge in plate.Edges)
+                {
+                    var currTile = world[edge.x, edge.y];
+                    currTile.EdgeType = GetEdgeType(edge, plate, world);
+                    world[edge.x, edge.y] = currTile;
+                }
+            }
+        }
+
+        private World.TectonicPlate.EdgeType GetEdgeType(Vector2Int edge, World.TectonicPlate plate, World world)
+        {
+            var neighbourCoord = edge
+                .Neighbours()
+                .Where(coord => world.IsValid(coord.x, coord.y) && (coord.x == edge.x || coord.y == edge.y)
+                &&world[coord.x,coord.y].TectonicIdx!=world[edge.x,edge.y].TectonicIdx)
+                .OrderByDescending(x=>Mathf.Abs(Vector2.Dot(plate.Direction,x-edge)))
+                .First();
+            var neighbour = world[neighbourCoord.x, neighbourCoord.y];
+            var neighbourPlate = world.TectonicPlates[neighbour.TectonicIdx];
+            var dot = Vector2.Dot(plate.Direction, neighbourPlate.Direction);
+            var dir = neighbourCoord - edge;
+            var dirDot = Vector2.Dot(plate.Direction, dir);
+            if (neighbourPlate.Density == plate.Density)
+            {
+                if (dot > 0.5f) //Same dir
+                {
+                    return World.TectonicPlate.EdgeType.Static;
+                }
+
+                if (dot < -0.5f) //Opposite
+                {
+                    if (dirDot < -0.5f) //Separate
+                    {
+                        return World.TectonicPlate.EdgeType.Divergent;
+                    }
+
+                    if (dirDot < 0.5f) //shear
+                    {
+                        return World.TectonicPlate.EdgeType.Shear;
+                    }
+
+                    if (dirDot > 0.5f) //Collide
+                    {
+                        return World.TectonicPlate.EdgeType.Collision;
+                    }
+                }
+                return World.TectonicPlate.EdgeType.Collision;
+            }
+
+            return World.TectonicPlate.EdgeType.Static;
         }
     }
 }

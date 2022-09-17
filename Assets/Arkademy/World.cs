@@ -9,16 +9,27 @@ namespace Arkademy
         public int Altitude;
         public int TectonicIdx;
         public bool TectonicEdge;
+        public World.TectonicPlate.EdgeType EdgeType;
+        
     }
 
     public class World : SquareGrid2D<WorldTile>
     {
         public struct TectonicPlate
         {
+            public enum EdgeType
+            {
+                None,
+                Collision,
+                Subduction,
+                Divergent,
+                Shear,
+                Static
+            }
             public Vector2Int Origin;
             public List<Vector2Int> Edges;
             public Vector2 Direction;
-            public int Altitude;
+            public int Density;
         }
 
         public readonly List<TectonicPlate> TectonicPlates = new List<TectonicPlate>();

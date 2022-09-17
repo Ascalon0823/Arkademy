@@ -12,11 +12,12 @@ namespace Arkademy
         public string layer;
         public TilePrefabPicker tilePicker;
     }
+
     public class WorldBehaviour : MonoBehaviour
     {
         public static WorldBehaviour Instance;
         [SerializeField] private int size;
-        
+
         [SerializeField] private WorldBuilder worldBuilder;
         [SerializeField] private bool built;
         [SerializeField] private bool createTile;
@@ -44,7 +45,6 @@ namespace Arkademy
             {
                 CreateTiles();
             }
-            
         }
 
         private void CreateTiles()
@@ -53,6 +53,7 @@ namespace Arkademy
             {
                 Destroy(worldGo);
             }
+
             createdLayers.Clear();
             worldGo = new GameObject("World");
             foreach (var layer in tilePickerLayers)
@@ -62,13 +63,12 @@ namespace Arkademy
                 layerGo.transform.localPosition = Vector3.zero;
                 currWorld.Iterate((x, y) =>
                 {
-                    var go = layer.tilePicker.GetTileObject(currWorld[x, y]);
+                    var go = layer.tilePicker.GetTileObject(currWorld[x, y], currWorld);
                     if (go == null) return;
                     go.transform.position = currWorld.GetPos(x, y);
                     go.transform.SetParent(layerGo.transform);
                 });
             }
-           
         }
     }
 }
