@@ -110,8 +110,11 @@ namespace Arkademy
             var neighbourCoord = edge
                 .Neighbours()
                 .Where(coord => world.IsValid(coord.x, coord.y) && (coord.x == edge.x || coord.y == edge.y)
-                &&world[coord.x,coord.y].TectonicIdx!=world[edge.x,edge.y].TectonicIdx)
-                .OrderByDescending(x=>Mathf.Abs(Vector2.Dot(plate.Direction,x-edge)))
+                                                                && world[coord.x, coord.y].TectonicIdx !=
+                                                                world[edge.x, edge.y].TectonicIdx)
+                .OrderByDescending(coord =>
+                    Vector2.Dot(world.GetPlateByCoord(coord.x, coord.y).Origin - plate.Origin,
+                        coord - edge))
                 .First();
             var neighbour = world[neighbourCoord.x, neighbourCoord.y];
             var neighbourPlate = world.TectonicPlates[neighbour.TectonicIdx];
@@ -142,10 +145,49 @@ namespace Arkademy
                         return World.TectonicPlate.EdgeType.Collision;
                     }
                 }
-                return World.TectonicPlate.EdgeType.Collision;
+
+                if (dirDot < -0.5f) //Separate
+                {
+                    return World.TectonicPlate.EdgeType.Divergent;
+                }
+
+                if (dirDot < 0.5f) //shear
+                {
+                    return World.TectonicPlate.EdgeType.Shear;
+                }
+
+                if (dirDot > 0.5f) //Collide
+                {
+                    return World.TectonicPlate.EdgeType.Collision;
+                }
+
+                return World.TectonicPlate.EdgeType.Static;
             }
 
-            return World.TectonicPlate.EdgeType.Static;
+            if (dot > 0.5f) //Same dir
+            {
+                return World.TectonicPlate.EdgeType.Static;
+            }
+
+            if (dot < -0.5f) //Opposite
+            {
+                if (dirDot < -0.5f) //Separate
+                {
+                    return World.TectonicPlate.EdgeType.Divergent;
+                }
+
+                if (dirDot < 0.5f) //shear
+                {
+                    return World.TectonicPlate.EdgeType.Shear;
+                }
+
+                if (dirDot > 0.5f) //Collide
+                {
+                    return World.TectonicPlate.EdgeType.Subduction;
+                }
+            }
+
+            return World.TectonicPlate.EdgeType.Subduction;
         }
     }
 }

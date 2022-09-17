@@ -33,6 +33,11 @@ namespace Arkademy
         }
 
         public readonly List<TectonicPlate> TectonicPlates = new List<TectonicPlate>();
+
+        public TectonicPlate GetPlateByCoord(int x, int y)
+        {
+            return TectonicPlates[this[x, y].TectonicIdx];
+        }
         public World(int x, int y, Vector3 anchorPos, Vector3 cellSize) : base(x, y, anchorPos, cellSize)
         {
         }
