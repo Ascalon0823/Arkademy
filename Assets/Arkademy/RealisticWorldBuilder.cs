@@ -27,6 +27,8 @@ namespace Arkademy
             return world;
         }
 
+        #region Tectonic plate
+
         protected void CreateTectonicPlates(World world)
         {
             world.TectonicPlates.Clear();
@@ -121,73 +123,39 @@ namespace Arkademy
             var dot = Vector2.Dot(plate.Direction, neighbourPlate.Direction);
             var dir = neighbourCoord - edge;
             var dirDot = Vector2.Dot(plate.Direction, dir);
-            if (neighbourPlate.Density == plate.Density)
-            {
-                if (dot > 0.5f) //Same dir
-                {
-                    return World.TectonicPlate.EdgeType.Static;
-                }
-
-                if (dot < -0.5f) //Opposite
-                {
-                    if (dirDot < -0.5f) //Separate
-                    {
-                        return World.TectonicPlate.EdgeType.Divergent;
-                    }
-
-                    if (dirDot < 0.5f) //shear
-                    {
-                        return World.TectonicPlate.EdgeType.Shear;
-                    }
-
-                    if (dirDot > 0.5f) //Collide
-                    {
-                        return World.TectonicPlate.EdgeType.Collision;
-                    }
-                }
-
-                if (dirDot < -0.5f) //Separate
-                {
-                    return World.TectonicPlate.EdgeType.Divergent;
-                }
-
-                if (dirDot < 0.5f) //shear
-                {
-                    return World.TectonicPlate.EdgeType.Shear;
-                }
-
-                if (dirDot > 0.5f) //Collide
-                {
-                    return World.TectonicPlate.EdgeType.Collision;
-                }
-
-                return World.TectonicPlate.EdgeType.Static;
-            }
-
+            var neighbourDirDot = Vector2.Dot(neighbourPlate.Direction, dir);
             if (dot > 0.5f) //Same dir
             {
                 return World.TectonicPlate.EdgeType.Static;
             }
 
-            if (dot < -0.5f) //Opposite
+            if (dirDot < -0.5f) //Separate
             {
-                if (dirDot < -0.5f) //Separate
-                {
-                    return World.TectonicPlate.EdgeType.Divergent;
-                }
-
-                if (dirDot < 0.5f) //shear
-                {
-                    return World.TectonicPlate.EdgeType.Shear;
-                }
-
-                if (dirDot > 0.5f) //Collide
-                {
-                    return World.TectonicPlate.EdgeType.Subduction;
-                }
+                return World.TectonicPlate.EdgeType.Divergent;
             }
 
-            return World.TectonicPlate.EdgeType.Subduction;
+            if (dirDot > 0.5f) //Collide
+            {
+                return neighbourPlate.Density == plate.Density
+                    ? World.TectonicPlate.EdgeType.Collision
+                    : World.TectonicPlate.EdgeType.Subduction;
+            }
+
+            if (neighbourDirDot < -0.5f) //neighbour incoming
+            {
+                return neighbourPlate.Density == plate.Density
+                    ? World.TectonicPlate.EdgeType.Collision
+                    : World.TectonicPlate.EdgeType.Subduction;
+            }
+
+            if (neighbourDirDot > 0.5f) //neighbour incoming
+            {
+                return World.TectonicPlate.EdgeType.Divergent;
+            }
+
+            return World.TectonicPlate.EdgeType.Static;
         }
+
+        #endregion
     }
 }

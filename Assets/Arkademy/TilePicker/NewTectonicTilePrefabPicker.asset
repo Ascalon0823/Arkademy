@@ -21,9 +21,11 @@ MonoBehaviour:
   - EdgeType: 2
     Obj: {fileID: 5571039208902936856, guid: 1e359ebf09ff6b240b6b80042f7b3086, type: 3}
   - EdgeType: 3
-    Obj: {fileID: 0}
-  - EdgeType: 0
-    Obj: {fileID: 0}
+    Obj: {fileID: 5571039208902936856, guid: 2dc55221d132f2e4d8faeedccdeed074, type: 3}
+  - EdgeType: 4
+    Obj: {fileID: 5571039208902936856, guid: eac9abdfcab606942bbe96d76a0be82c, type: 3}
+  - EdgeType: 2
+    Obj: {fileID: 5571039208902936856, guid: 1e359ebf09ff6b240b6b80042f7b3086, type: 3}
   groundEdge:
   - EdgeType: 1
     Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
@@ -33,3 +35,5 @@ MonoBehaviour:
     Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
   - EdgeType: 4
     Obj: {fileID: 7698240762753344152, guid: e2ee9ad8a6be3a145a8eca779d6736de, type: 3}
+  - EdgeType: 2
+    Obj: {fileID: 3104607809040857018, guid: 8c4ec9b8d535dbe4c9af0bc187280be9, type: 3}
