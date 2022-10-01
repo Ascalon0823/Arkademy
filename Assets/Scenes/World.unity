@@ -528,14 +528,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d156fddeed265488009f6d1c637ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 128
+  size: 150
   worldBuilder: {fileID: 11400000, guid: 267ca64c7d097974dbd7556bf380a0f5, type: 2}
   built: 0
   createTile: 1
   tilePickerLayers:
   - layer: HeightMap
-    tilePicker: {fileID: 11400000, guid: 84a066ae4cc954345b33bbc495400269, type: 2}
-  - layer: TectonicEdge
+    tilePicker: {fileID: 11400000, guid: 50185ad2225a136428871c0bd3db3893, type: 2}
+  - layer: Tectonic
     tilePicker: {fileID: 11400000, guid: 5bdeaf49bf39e37489c941438ff6781b, type: 2}
 --- !u!4 &809876500
 Transform:

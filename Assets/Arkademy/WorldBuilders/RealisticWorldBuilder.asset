@@ -12,8 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e395ba04958274f88e7c0072a22272, type: 3}
   m_Name: RealisticWorldBuilder
   m_EditorClassIdentifier: 
-  worldSeed: 0
+  worldSeed: 580189354
   randomWorldSeed: 1
-  currWorldSeed: 951465865
+  currWorldSeed: 295445959
   minAmountPlates: 10
   maxAmountPlates: 20
+  treatBoarderAsEdge: 0
+  oceanBaseHeight: 35
+  groundBaseHeight: 55
+  edgeHeightRandomRange: 5
+  collisionDiff: 35
+  oceanSubductionDiff: -45
+  groundSubductionDiff: 30
+  oceanDivergentDiff: 25
+  groundDivergentDiff: -10
+  lerpHeightRandomRange: 1
+  lerpStep: 0.25

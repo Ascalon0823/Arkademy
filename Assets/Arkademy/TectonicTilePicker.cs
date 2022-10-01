@@ -23,9 +23,10 @@ namespace Arkademy
 
         public override GameObject GetTileObject(WorldTile tile, World world)
         {
-            var tileObj = Instantiate(world.TectonicPlates[tile.TectonicIdx].Density == 0
-                ? oceanPlateTile
-                : groundPlateTile);
+            // var tileObj = Instantiate(world.TectonicPlates[tile.TectonicIdx].Density == 0
+            //     ? oceanPlateTile
+            //     : groundPlateTile);
+            var tileObj = new GameObject();
             if (tile.TectonicEdge)
             {
                 var dir = world.TectonicPlates[tile.TectonicIdx].Direction;
@@ -37,7 +38,8 @@ namespace Arkademy
                     : groundEdge)?.FirstOrDefault(x => x.EdgeType == tile.EdgeType);
                 if (edgeObj.HasValue && edgeObj.Value.Obj != null)
                 {
-                    Instantiate(edgeObj.Value.Obj, tileObj.transform,false);
+                    var go = Instantiate(edgeObj.Value.Obj, tileObj.transform,false);
+                    go.transform.localScale = Vector3.one * 0.5f;
                 }
                 
             }

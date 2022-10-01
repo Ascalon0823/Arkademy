@@ -16,6 +16,17 @@ namespace Arkademy
         protected int minAmountPlates;
 
         [SerializeField] protected int maxAmountPlates;
+        [SerializeField] protected bool treatBoarderAsEdge;
+        [Header("Height")] [SerializeField] protected int oceanBaseHeight;
+        [SerializeField] protected int groundBaseHeight;
+        [SerializeField] protected int edgeHeightRandomRange;
+        [SerializeField] protected int collisionDiff;
+        [SerializeField] protected int oceanSubductionDiff;
+        [SerializeField] protected int groundSubductionDiff;
+        [SerializeField] protected int oceanDivergentDiff;
+        [SerializeField] protected int groundDivergentDiff;
+        [SerializeField] protected int lerpHeightRandomRange;
+        [SerializeField] protected float lerpStep;
 
         public override World BuildWorld(int size)
         {
@@ -24,6 +35,7 @@ namespace Arkademy
             currWorldSeed = randomWorldSeed ? Random.Range(0, int.MaxValue) : worldSeed;
             Random.InitState(currWorldSeed);
             CreateTectonicPlates(world);
+            CreateHeightMap(world);
             return world;
         }
 
@@ -39,13 +51,14 @@ namespace Arkademy
 
         private void ResetTilePlateIdx(World world)
         {
-            world.Iterate((x, y) =>
-            {
-                var tile = world[x, y];
-                tile.TectonicIdx = -1;
-                world[x, y] = tile;
-            });
+            world.IterateAndUpdate(
+                (x, y, t) =>
+                {
+                    t.TectonicIdx = -1;
+                    return t;
+                });
         }
+
 
         private Dictionary<Vector2f, int> CreatePlates(World world)
         {
@@ -64,7 +77,7 @@ namespace Arkademy
             var bounds = new Rectf(0, 0, world.Width(), world.Height());
             var voronoi = new Voronoi(points, bounds, 2);
             var dict = new Dictionary<Vector2f, int>();
-            
+
             foreach (var site in voronoi.SitesIndexedByLocation.Values)
             {
                 var plate = new World.TectonicPlate
@@ -93,11 +106,13 @@ namespace Arkademy
                 {
                     expandable[idx] = new List<Vector2Int> {world.TectonicPlates[idx].Origin};
                 }
+
                 if (expandable[idx].Count == 0)
                 {
                     expandable.Remove(idx);
                     continue;
                 }
+
                 var targetIdx = Random.Range(0, expandable[idx].Count);
                 var targetCoord = expandable[idx][targetIdx];
                 expandable[idx].RemoveAt(targetIdx);
@@ -106,10 +121,12 @@ namespace Arkademy
                 {
                     continue;
                 }
+
                 tile.TectonicIdx = idx;
+                tile.Altitude = world.TectonicPlates[idx].Density == 0 ? oceanBaseHeight : groundBaseHeight;
                 world[targetCoord.x, targetCoord.y] = tile;
                 remaining--;
-                
+
                 var valideNeighbours = targetCoord.Neighbours()
                     .Where(coord =>
                         world.IsValid(coord.x, coord.y) && world[coord.x, coord.y].TectonicIdx == -1);
@@ -140,13 +157,14 @@ namespace Arkademy
 
         private void FindEdges(World world)
         {
-            world.Iterate((x, y) =>
+            world.IterateAndUpdate((x, y, curr) =>
             {
                 var valideNeighbours = new Vector2Int(x, y).Neighbours()
                     .Where(coord => world.IsValid(coord.x, coord.y) && (coord.x == x || coord.y == y))
                     .Select(coord => world[coord.x, coord.y]);
-                var curr = world[x, y];
-                if (valideNeighbours.Any(neighbour => neighbour.TectonicIdx != curr.TectonicIdx && curr.TectonicIdx!=-1))
+                if (valideNeighbours.Any(neighbour =>
+                        neighbour.TectonicIdx != curr.TectonicIdx && curr.TectonicIdx != -1) ||
+                    treatBoarderAsEdge && world.IsBoarder(x, y))
                 {
                     curr.TectonicEdge = true;
                     var plate = world.TectonicPlates[curr.TectonicIdx];
@@ -159,29 +177,46 @@ namespace Arkademy
                     curr.TectonicEdge = false;
                 }
 
-                world[x, y] = curr;
+                return curr;
             });
             foreach (var plate in world.TectonicPlates)
             {
                 foreach (var edge in plate.Edges)
                 {
-                    var currTile = world[edge.x, edge.y];
-                    currTile.EdgeType = GetEdgeType(edge, plate, world);
-                    world[edge.x, edge.y] = currTile;
+                    world.UpdateTile(edge, (currTile, _) =>
+                    {
+                        currTile.EdgeType = GetEdgeType(edge, plate, world);
+                        currTile.Altitude += GetAltitudeChangeByEdgeType(currTile.EdgeType, plate.Density);
+                        return currTile;
+                    });
                 }
             }
         }
 
+
         private World.TectonicPlate.EdgeType GetEdgeType(Vector2Int edge, World.TectonicPlate plate, World world)
         {
-            var neighbourCoord = edge
+            var neighbourCoords = edge
                 .Neighbours()
                 .Where(coord => world.IsValid(coord.x, coord.y) && (coord.x == edge.x || coord.y == edge.y)
                                                                 && world[coord.x, coord.y].TectonicIdx !=
-                                                                world[edge.x, edge.y].TectonicIdx)
+                                                                world[edge.x, edge.y].TectonicIdx).ToList();
+            if (neighbourCoords.Count == 0)
+            {
+                if (!treatBoarderAsEdge)
+                {
+                    return World.TectonicPlate.EdgeType.Static;
+                }
+
+                return plate.Density == 0
+                    ? World.TectonicPlate.EdgeType.Subduction
+                    : World.TectonicPlate.EdgeType.Collision;
+            }
+
+            var neighbourCoord = neighbourCoords
                 .OrderByDescending(coord =>
-                    Vector2.Dot(world.GetPlateByCoord(coord.x, coord.y).Origin - plate.Origin,
-                        coord - edge))
+                    Vector2.Dot(world.GetPlateByCoord(coord.x, coord.y).Origin - plate.Origin,coord - edge)
+                    )
                 .First();
             var neighbour = world[neighbourCoord.x, neighbourCoord.y];
             var neighbourPlate = world.TectonicPlates[neighbour.TectonicIdx];
@@ -219,6 +254,67 @@ namespace Arkademy
             }
 
             return World.TectonicPlate.EdgeType.Static;
+        }
+
+        #endregion
+
+        #region Height
+
+        private void CreateHeightMap(World world)
+        {
+            foreach (var plate in world.TectonicPlates)
+            {
+                var queue = new List<Vector2Int>();
+                queue.AddRange(plate.Edges);
+                var processed = new HashSet<Vector2Int>();
+                while (queue.Count > 0)
+                {
+                    var idx = Random.Range(0, queue.Count);
+                    var coord = queue[idx];
+                    processed.Add(coord);
+                    queue.RemoveAt(idx);
+                    var tile = world[coord.x, coord.y];
+                    var neighbour = coord.Neighbours().Where(nei =>
+                        world.IsValid(nei.x, nei.y)
+                        && world[nei.x, nei.y].TectonicIdx == tile.TectonicIdx //Same plate
+                        //&& !world[nei.x, nei.y].TectonicEdge
+                        && (nei.x == coord.x || nei.y == coord.y) //4 dir
+                        && !processed.Contains(nei) //processed
+                        //&& Mathf.Abs(world[nei.x, nei.y].Altitude - tile.Altitude) > 3f
+                    ).ToArray(); //Big diff
+                    var count = neighbour.Length;
+                    foreach (var nei in neighbour.OrderByDescending(x => Random.Range(0, count)))
+                    {
+                        world.UpdateTile(nei, (neiTile, _) =>
+                            {
+                                neiTile.Altitude =
+                                    Mathf.FloorToInt(lerpStep * neiTile.Altitude + (1 - lerpStep) * tile.Altitude) +
+                                    Random.Range(-lerpHeightRandomRange, lerpHeightRandomRange);
+                                return neiTile;
+                            }
+                        );
+                        queue.Add(nei);
+                        processed.Add(nei);
+                    }
+                }
+            }
+        }
+
+        private int GetAltitudeChangeByEdgeType(World.TectonicPlate.EdgeType type, int density)
+        {
+            return type switch
+            {
+                World.TectonicPlate.EdgeType.None => 0,
+                World.TectonicPlate.EdgeType.Collision => collisionDiff +
+                                                          Random.Range(-edgeHeightRandomRange, edgeHeightRandomRange),
+                World.TectonicPlate.EdgeType.Subduction => (density == 0 ? oceanSubductionDiff : groundSubductionDiff) +
+                                                           Random.Range(-edgeHeightRandomRange, edgeHeightRandomRange),
+                World.TectonicPlate.EdgeType.Divergent => (density == 0 ? oceanDivergentDiff : groundDivergentDiff) +
+                                                          Random.Range(-edgeHeightRandomRange, edgeHeightRandomRange),
+                World.TectonicPlate.EdgeType.Shear => 0 + Random.Range(-edgeHeightRandomRange, edgeHeightRandomRange),
+                World.TectonicPlate.EdgeType.Static => 0,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
 
         #endregion

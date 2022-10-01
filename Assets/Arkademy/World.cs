@@ -10,7 +10,6 @@ namespace Arkademy
         public int TectonicIdx;
         public bool TectonicEdge;
         public World.TectonicPlate.EdgeType EdgeType;
-        
     }
 
     public class World : SquareGrid2D<WorldTile>
@@ -26,6 +25,7 @@ namespace Arkademy
                 Shear,
                 Static
             }
+
             public Vector2Int Origin;
             public List<Vector2Int> Edges;
             public Vector2 Direction;
@@ -34,10 +34,29 @@ namespace Arkademy
 
         public readonly List<TectonicPlate> TectonicPlates = new List<TectonicPlate>();
 
+        public void UpdateTile(Vector2Int coord, System.Func<WorldTile, Vector2Int, WorldTile> updateFunc)
+        {
+            var tile = this[coord.x, coord.y];
+            this[coord.x, coord.y] = updateFunc(tile, coord);
+        }
+
+        public void UpdateTile(int x, int y, System.Func<WorldTile, int, int, WorldTile> updateFunc)
+        {
+            var tile = this[x, y];
+            this[x, y] = updateFunc(tile, x, y);
+        }
+        public void IterateAndUpdate(System.Func<int, int, WorldTile, WorldTile> func)
+        {
+            Iterate((x, y) =>
+            {
+                this[x, y] = func(x, y, this[x, y]);
+            });
+        }
         public TectonicPlate GetPlateByCoord(int x, int y)
         {
             return TectonicPlates[this[x, y].TectonicIdx];
         }
+
         public World(int x, int y, Vector3 anchorPos, Vector3 cellSize) : base(x, y, anchorPos, cellSize)
         {
         }
