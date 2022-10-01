@@ -129,7 +129,9 @@ namespace Arkademy
 
                 var valideNeighbours = targetCoord.Neighbours()
                     .Where(coord =>
-                        world.IsValid(coord.x, coord.y) && world[coord.x, coord.y].TectonicIdx == -1);
+                        world.IsValid(coord.x, coord.y)
+                        && world[coord.x, coord.y].TectonicIdx == -1
+                        && (coord.x == targetCoord.x || coord.y == targetCoord.y));
                 expandable[idx].AddRange(valideNeighbours);
             }
         }
@@ -215,8 +217,8 @@ namespace Arkademy
 
             var neighbourCoord = neighbourCoords
                 .OrderByDescending(coord =>
-                    Vector2.Dot(world.GetPlateByCoord(coord.x, coord.y).Origin - plate.Origin,coord - edge)
-                    )
+                    Vector2.Dot(world.GetPlateByCoord(coord.x, coord.y).Origin - plate.Origin, coord - edge)
+                )
                 .First();
             var neighbour = world[neighbourCoord.x, neighbourCoord.y];
             var neighbourPlate = world.TectonicPlates[neighbour.TectonicIdx];
@@ -275,11 +277,11 @@ namespace Arkademy
                     queue.RemoveAt(idx);
                     var tile = world[coord.x, coord.y];
                     var neighbour = coord.Neighbours().Where(nei =>
-                        world.IsValid(nei.x, nei.y)
-                        && world[nei.x, nei.y].TectonicIdx == tile.TectonicIdx //Same plate
-                        //&& !world[nei.x, nei.y].TectonicEdge
-                        && (nei.x == coord.x || nei.y == coord.y) //4 dir
-                        && !processed.Contains(nei) //processed
+                            world.IsValid(nei.x, nei.y)
+                            && world[nei.x, nei.y].TectonicIdx == tile.TectonicIdx //Same plate
+                            //&& !world[nei.x, nei.y].TectonicEdge
+                            && (nei.x == coord.x || nei.y == coord.y) //4 dir
+                            && !processed.Contains(nei) //processed
                         //&& Mathf.Abs(world[nei.x, nei.y].Altitude - tile.Altitude) > 3f
                     ).ToArray(); //Big diff
                     var count = neighbour.Length;
