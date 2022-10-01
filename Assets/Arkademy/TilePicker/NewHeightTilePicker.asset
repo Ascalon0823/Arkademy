@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: NewHeightTilePicker
   m_EditorClassIdentifier: 
   basePrefab: {fileID: 580375935360971190, guid: 98f25ed7136d84f4f92acd256c7a459f, type: 3}
-  minColor: {r: 0, g: 0, b: 0, a: 1}
-  maxColor: {r: 1, g: 1, b: 1, a: 1}
+  minColor: {r: 0.020964282, g: 0, b: 0.3773585, a: 1}
+  maxColor: {r: 0.7311321, g: 0.76543045, b: 1, a: 1}
