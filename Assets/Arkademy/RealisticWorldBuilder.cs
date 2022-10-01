@@ -32,6 +32,23 @@ namespace Arkademy
         protected void CreateTectonicPlates(World world)
         {
             world.TectonicPlates.Clear();
+            var dict = CreatePlates(world);
+            FillPlatesRandom(world);
+            FindEdges(world);
+        }
+
+        private void ResetTilePlateIdx(World world)
+        {
+            world.Iterate((x, y) =>
+            {
+                var tile = world[x, y];
+                tile.TectonicIdx = -1;
+                world[x, y] = tile;
+            });
+        }
+
+        private Dictionary<Vector2f, int> CreatePlates(World world)
+        {
             var numPlates = Random.Range(minAmountPlates, Mathf.Max(minAmountPlates + 1, maxAmountPlates));
             var points = new List<Vector2f>();
             for (var i = 0; i < numPlates; i++)
@@ -47,6 +64,7 @@ namespace Arkademy
             var bounds = new Rectf(0, 0, world.Width(), world.Height());
             var voronoi = new Voronoi(points, bounds, 2);
             var dict = new Dictionary<Vector2f, int>();
+            
             foreach (var site in voronoi.SitesIndexedByLocation.Values)
             {
                 var plate = new World.TectonicPlate
@@ -59,12 +77,56 @@ namespace Arkademy
                 dict[site.Coord] = world.TectonicPlates.Count - 1;
             }
 
+            return dict;
+        }
+
+        private void FillPlatesRandom(World world)
+        {
+            ResetTilePlateIdx(world);
+            var remaining = world.Width() * world.Height();
+
+            var expandable = new Dictionary<int, List<Vector2Int>>();
+            while (remaining > 0)
+            {
+                var idx = Random.Range(0, world.TectonicPlates.Count);
+                if (!expandable.TryGetValue(idx, out var set))
+                {
+                    expandable[idx] = new List<Vector2Int> {world.TectonicPlates[idx].Origin};
+                }
+                if (expandable[idx].Count == 0)
+                {
+                    expandable.Remove(idx);
+                    continue;
+                }
+                var targetIdx = Random.Range(0, expandable[idx].Count);
+                var targetCoord = expandable[idx][targetIdx];
+                expandable[idx].RemoveAt(targetIdx);
+                var tile = world[targetCoord.x, targetCoord.y];
+                if (tile.TectonicIdx != -1)
+                {
+                    continue;
+                }
+                tile.TectonicIdx = idx;
+                world[targetCoord.x, targetCoord.y] = tile;
+                remaining--;
+                
+                var valideNeighbours = targetCoord.Neighbours()
+                    .Where(coord =>
+                        world.IsValid(coord.x, coord.y) && world[coord.x, coord.y].TectonicIdx == -1);
+                expandable[idx].AddRange(valideNeighbours);
+            }
+        }
+
+        private void FillPlates(World world, Dictionary<Vector2f, int> dict)
+        {
+            ResetTilePlateIdx(world);
             var dist = new Func<Vector2f, int, int, float>((Vector2f v, int x, int y) => Vector2.Distance(
                 new Vector2(x, y),
                 new Vector2(v.x, v.y)
             ));
 
-            world.Iterate((x, y) =>
+
+            world.Iterate((x, y) => //Fill
             {
                 var tile = world[x, y];
                 var index = dict.Aggregate((min, next) =>
@@ -74,14 +136,17 @@ namespace Arkademy
                 tile.TectonicIdx = index;
                 world[x, y] = tile;
             });
+        }
 
+        private void FindEdges(World world)
+        {
             world.Iterate((x, y) =>
             {
                 var valideNeighbours = new Vector2Int(x, y).Neighbours()
                     .Where(coord => world.IsValid(coord.x, coord.y) && (coord.x == x || coord.y == y))
                     .Select(coord => world[coord.x, coord.y]);
                 var curr = world[x, y];
-                if (valideNeighbours.Any(neighbour => neighbour.TectonicIdx != curr.TectonicIdx))
+                if (valideNeighbours.Any(neighbour => neighbour.TectonicIdx != curr.TectonicIdx && curr.TectonicIdx!=-1))
                 {
                     curr.TectonicEdge = true;
                     var plate = world.TectonicPlates[curr.TectonicIdx];
