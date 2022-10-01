@@ -45,13 +45,12 @@ namespace Arkademy
             var tile = this[x, y];
             this[x, y] = updateFunc(tile, x, y);
         }
+
         public void IterateAndUpdate(System.Func<int, int, WorldTile, WorldTile> func)
         {
-            Iterate((x, y) =>
-            {
-                this[x, y] = func(x, y, this[x, y]);
-            });
+            Iterate((x, y) => { this[x, y] = func(x, y, this[x, y]); });
         }
+
         public TectonicPlate GetPlateByCoord(int x, int y)
         {
             return TectonicPlates[this[x, y].TectonicIdx];
@@ -72,7 +71,12 @@ namespace Arkademy
 
         public static World Create(int size)
         {
-            return new World(size, size, Vector3.zero + new Vector3(-size / 2f, -size / 2f), new Vector3(1, 1, 0));
+            return Create(size, size);
+        }
+
+        public static World Create(int sizeX, int sizeY)
+        {
+            return new World(sizeX, sizeY, Vector3.zero + new Vector3(-sizeX / 2f, -sizeY / 2f), new Vector3(1, 1, 0));
         }
     }
 }

@@ -38,10 +38,9 @@ namespace Arkademy
                     : groundEdge)?.FirstOrDefault(x => x.EdgeType == tile.EdgeType);
                 if (edgeObj.HasValue && edgeObj.Value.Obj != null)
                 {
-                    var go = Instantiate(edgeObj.Value.Obj, tileObj.transform,false);
+                    var go = Instantiate(edgeObj.Value.Obj, tileObj.transform, false);
                     go.transform.localScale = Vector3.one * 0.5f;
                 }
-                
             }
 
             return tileObj;

@@ -16,7 +16,8 @@ namespace Arkademy
     public class WorldBehaviour : MonoBehaviour
     {
         public static WorldBehaviour Instance;
-        [SerializeField] private int size;
+        [SerializeField] private int width;
+        [SerializeField] private int height;
 
         [SerializeField] private WorldBuilder worldBuilder;
         [SerializeField] private bool built;
@@ -39,7 +40,7 @@ namespace Arkademy
 
         private void Start()
         {
-            currWorld = worldBuilder.BuildWorld(size);
+            currWorld = worldBuilder.BuildWorld(width, height);
             built = true;
             if (createTile)
             {

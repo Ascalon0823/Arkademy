@@ -16,9 +16,9 @@ namespace Arkademy
         [SerializeField] protected Vector2 perlinOffset;
         [SerializeField] protected bool randomOffset;
 
-        public override World BuildWorld(int size)
+        public override World BuildWorld(int sizeX, int sizeY)
         {
-            var world = World.Create(size);
+            var world = World.Create(sizeX, sizeY);
             Random.InitState((int) DateTime.UtcNow.Ticks);
             currWorldSeed = randomWorldSeed ? Random.Range(0, int.MaxValue) : worldSeed;
             Random.InitState(currWorldSeed);
@@ -30,8 +30,8 @@ namespace Arkademy
             {
                 var tile = world[x, y];
                 var sample = Mathf.PerlinNoise(
-                                 (x * 1.0f / size + offset.x) * perlinScale.x,
-                                 (y * 1.0f / size + offset.y) * perlinScale.y) *
+                                 (x * 1.0f / sizeX + offset.x) * perlinScale.x,
+                                 (y * 1.0f / sizeY + offset.y) * perlinScale.y) *
                              (maxHeight - minHeight);
                 tile.Altitude = Mathf.FloorToInt(sample) +
                                 minHeight;

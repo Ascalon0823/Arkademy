@@ -28,9 +28,9 @@ namespace Arkademy
         [SerializeField] protected int lerpHeightRandomRange;
         [SerializeField] protected float lerpStep;
 
-        public override World BuildWorld(int size)
+        public override World BuildWorld(int sizeX, int sizeY)
         {
-            var world = World.Create(size);
+            var world = World.Create(sizeX, sizeY);
             Random.InitState((int) DateTime.UtcNow.Ticks);
             currWorldSeed = randomWorldSeed ? Random.Range(0, int.MaxValue) : worldSeed;
             Random.InitState(currWorldSeed);
