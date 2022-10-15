@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSeed: 580189354
   randomWorldSeed: 1
-  currWorldSeed: 1914673981
+  currWorldSeed: 624621366
   minAmountPlates: 20
   maxAmountPlates: 30
   treatBoarderAsEdge: 0
   oceanBaseHeight: 30
   groundBaseHeight: 55
-  edgeHeightRandomRange: 3
+  edgeHeightRandomRange: 10
   collisionDiff: 30
   oceanSubductionDiff: -45
   groundSubductionDiff: 30
   oceanDivergentDiff: 10
   groundDivergentDiff: -20
   lerpHeightRandomRange: 1
-  lerpStep: 0.5
+  lerpStep: 0.4

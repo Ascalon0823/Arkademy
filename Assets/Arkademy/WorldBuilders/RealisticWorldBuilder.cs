@@ -280,7 +280,7 @@ namespace Arkademy
                             world.IsValid(nei.x, nei.y)
                             && world[nei.x, nei.y].TectonicIdx == tile.TectonicIdx //Same plate
                             //&& !world[nei.x, nei.y].TectonicEdge
-                            && (nei.x == coord.x || nei.y == coord.y) //4 dir
+                            //&& (nei.x == coord.x || nei.y == coord.y) //4 dir
                             && !processed.Contains(nei) //processed
                         //&& Mathf.Abs(world[nei.x, nei.y].Altitude - tile.Altitude) > 3f
                     ).ToArray(); //Big diff
