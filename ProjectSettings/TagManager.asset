@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 232759387
+    locked: 0
+  - name: Stage
+    uniqueID: 4006512489
+    locked: 0
+  - name: Actors
+    uniqueID: 412899681
+    locked: 0
