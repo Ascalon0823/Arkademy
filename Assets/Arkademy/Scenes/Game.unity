@@ -216,7 +216,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 18.9375
+  orthographic size: 12.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1425,7 +1425,11 @@ PrefabInstance:
     - target: {fileID: 3607602912191757256, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f15a188fdece85740b410dfc129e093d, type: 3}
+      objectReference: {fileID: 21300000, guid: 977469d0f9324274186204230cf1d1bd, type: 3}
+    - target: {fileID: 3607602912191757256, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 39c9b0532c7e04f40bc095c512973b0d, type: 2}
     - target: {fileID: 7374364082288673275, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
       propertyPath: m_Name
       value: Actor (1)
