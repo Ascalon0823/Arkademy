@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Arkademy
 {
-    public class MotorBehaviour : MonoBehaviour
+    public class Motor : MonoBehaviour
     {
         public Rigidbody2D rb;
         public Vector2 moveDir;

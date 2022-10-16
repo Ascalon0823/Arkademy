@@ -205,6 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8935410560992183842}
   - component: {fileID: 3345028198738614926}
+  - component: {fileID: 4041077945964126915}
   m_Layer: 2
   m_Name: Trigger
   m_TagString: Untagged
@@ -243,6 +244,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
+--- !u!114 &4041077945964126915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4970771900466706340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e17808a07cb24ab38c820528b3935ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detected: []
 --- !u!1 &7250289466760100274
 GameObject:
   m_ObjectHideFlags: 0

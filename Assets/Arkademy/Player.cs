@@ -24,7 +24,7 @@ namespace Arkademy
         private void HandleInput()
         {
             if (!currActor) return;
-            var motor = currActor.GetComponent<MotorBehaviour>();
+            var motor = currActor.GetComponent<Motor>();
             if (!motor) return;
             var fingers = LeanTouch.GetFingers(true,false,1);
             if (fingers == null||fingers.Count==0) return;
@@ -34,8 +34,8 @@ namespace Arkademy
                 motor.moveDir = Vector2.zero;
                 return;
             }
-            motor.moveDir = finger.ScreenPosition - finger.StartScreenPosition;
-            motor.moveDir = motor.moveDir.normalized;
+            motor.moveDir = (finger.ScreenPosition - finger.StartScreenPosition)*4/Screen.width;
+            motor.moveDir = Vector2.ClampMagnitude(motor.moveDir,1f);
         }
     }
 }
