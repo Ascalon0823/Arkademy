@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4586006511138167697}
   - component: {fileID: 5116234237026028910}
   - component: {fileID: 6250303006922319331}
+  - component: {fileID: 5273755668136771271}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -147,6 +148,21 @@ MonoBehaviour:
   maxDistance: 1
   minScale: {x: 0.5, y: 0.5, z: 0.5}
   steps: 4
+--- !u!114 &5273755668136771271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103107388519410857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5af1b6aec986f41a84a9b20a6773b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motor: {fileID: 2170209229650962828}
+  originallyFacingRight: 0
+  sr: {fileID: 3607602912191757256}
 --- !u!1 &2884760454259131394
 GameObject:
   m_ObjectHideFlags: 0
