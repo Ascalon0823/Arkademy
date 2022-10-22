@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currActor: {fileID: 0}
+  currInteractionCandidate: {fileID: 0}
+  interactionTime: 0.5

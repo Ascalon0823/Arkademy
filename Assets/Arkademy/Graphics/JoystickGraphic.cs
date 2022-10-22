@@ -19,7 +19,8 @@ namespace Arkademy.Graphics
             var fingers = LeanTouch.GetFingers(true,false,1);
             if (fingers == null||fingers.Count==0) return;
             var finger = fingers[0];
-            if (finger.Down)
+            if (finger.GetScreenDistance(finger.StartScreenPosition) >
+                LeanTouch.CurrentSwipeThreshold)
             {
                 root.gameObject.SetActive(true);
             }

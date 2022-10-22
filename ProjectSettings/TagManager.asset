@@ -50,3 +50,6 @@ TagManager:
   - name: Actors
     uniqueID: 412899681
     locked: 0
+  - name: Overlay
+    uniqueID: 824114213
+    locked: 0
