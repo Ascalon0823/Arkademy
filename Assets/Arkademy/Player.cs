@@ -29,6 +29,11 @@ namespace Arkademy
             LocalPlayer = this;
         }
 
+        private void Start()
+        {
+            LeanTouch.Instance.SwipeThreshold = Screen.width / 8;
+        }
+
         private void Update()
         {
             if (ApplicationManager.Paused)
@@ -79,7 +84,7 @@ namespace Arkademy
             if (finger == null) return 0f;
             if (finger.GetScreenDistance(finger.StartScreenPosition) >
                 LeanTouch.CurrentSwipeThreshold) return 0f;
-            if (fingerInUse||fingerDisposed) return 0f;
+            if (fingerInUse || fingerDisposed) return 0f;
             return finger.Age < LeanTouch.CurrentTapThreshold ? 0f : finger.Age / interactionTime;
         }
 
@@ -115,7 +120,8 @@ namespace Arkademy
             if (!detector) return null;
             if (detector.Detected == null || detector.Detected.Count == 0) return null;
             var validDetected = detector.Detected
-                .Where(x => x.gameObject.layer == LayerMask.NameToLayer("Default") && !x.isTrigger).ToList();
+                .Where(x => x.gameObject.layer == LayerMask.NameToLayer("Default") && !x.isTrigger &&
+                            x.GetComponentInParent<Interaction>()).ToList();
             if (!validDetected.Any()) return null;
             var nearest =
                 validDetected.OrderBy(x => Vector2.Distance(x.transform.position, detector.transform.position))
@@ -158,6 +164,7 @@ namespace Arkademy
                 {
                     Debug.Log("SwipeEnd");
                 }
+
                 motor.moveDir = Vector2.zero;
                 return;
             }
@@ -167,6 +174,8 @@ namespace Arkademy
             {
                 fingerInUse = true;
             }
+
+            if (!fingerInUse) return;
 
             motor.moveDir = (finger.ScreenPosition - finger.StartScreenPosition) * 4 / Screen.width;
             motor.moveDir = Vector2.ClampMagnitude(motor.moveDir, 1f);
