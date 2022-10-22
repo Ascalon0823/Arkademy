@@ -66,7 +66,7 @@ namespace Arkademy
             var progress = currActor.GetComponentInChildren<ActionProgress>();
             if (!progress) return;
             progress.currProgress = GetInteractionProgress();
-            if (progress.currProgress <= 1f) return;
+            if (progress.currProgress <= 1f + LeanTouch.CurrentTapThreshold) return;
             var interact = currActor.GetComponentInChildren<Interaction>();
             if (interact.currTarget) return;
             var other = currInteractionCandidate.GetComponentInChildren<Interaction>();
@@ -85,7 +85,9 @@ namespace Arkademy
             if (finger.GetScreenDistance(finger.StartScreenPosition) >
                 LeanTouch.CurrentSwipeThreshold) return 0f;
             if (fingerInUse || fingerDisposed) return 0f;
-            return finger.Age < LeanTouch.CurrentTapThreshold ? 0f : finger.Age / interactionTime;
+            return finger.Age < LeanTouch.CurrentTapThreshold
+                ? 0f
+                : (finger.Age - LeanTouch.CurrentTapThreshold) / interactionTime;
         }
 
         private void HandleInteractionCandidate()
