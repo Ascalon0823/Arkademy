@@ -8,16 +8,9 @@ namespace Arkademy.Graphics
         [SerializeField] private Transform shadow;
         [SerializeField] private Transform target;
         [SerializeField] private float maxDistance;
-        private float minDistance;
+        [SerializeField] private float minDistance;
         [SerializeField] private Vector3 minScale;
         [SerializeField] private int steps;
-
-        private void Start()
-        {
-            minDistance = Mathf.Abs(target.position.y - shadow.position.y);
-        }
-
-        // Update is called once per frame
         void Update()
         {
             var t =

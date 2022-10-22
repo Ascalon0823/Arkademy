@@ -264,6 +264,7 @@ MonoBehaviour:
   shadow: {fileID: 5893576920873230374}
   target: {fileID: 2854075412696420016}
   maxDistance: 1
+  minDistance: 0.25
   minScale: {x: 0.5, y: 0.5, z: 0.5}
   steps: 4
 --- !u!114 &8710288581547454707
@@ -294,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4770706310199792378}
+  startingLocalPos: {x: 0, y: 0.25, z: 0}
   dropDistance: 2
   dropTime: 1
   distance: 0.3
