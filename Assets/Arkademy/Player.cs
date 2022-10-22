@@ -162,7 +162,7 @@ namespace Arkademy
             if (finger.Up)
             {
                 if (finger.GetSnapshotScreenDelta(LeanTouch.CurrentTapThreshold).magnitude >=
-                    LeanTouch.CurrentSwipeThreshold)
+                    LeanTouch.CurrentSwipeThreshold * 2f)
                 {
                     Debug.Log("SwipeEnd");
                 }
