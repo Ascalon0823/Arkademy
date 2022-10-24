@@ -27,6 +27,7 @@ namespace Arkademy
             }
 
             LocalPlayer = this;
+            Application.targetFrameRate = 60;
         }
 
         private void Start()

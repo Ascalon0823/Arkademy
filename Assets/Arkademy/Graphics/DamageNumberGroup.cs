@@ -16,13 +16,13 @@ namespace Arkademy.Graphics
 
         public float fadeOutTime;
 
-        public void Setup(int[] numbers, Transform parent)
+        public void Setup(int[] numbers, Transform follow)
         {
-            this.parent = parent;
-            StopAllCoroutines();
-            StartCoroutine(SpawnNumbers(numbers));
+            parent = follow;
             LeanTween.moveLocalY(numberRoot.gameObject, 0.5f, lifeTime + spawnInterval * numbers.Length + fadeOutTime)
                 .setEaseOutCubic().setOnComplete(_ => Destroy(gameObject));
+            StopAllCoroutines();
+            StartCoroutine(SpawnNumbers(numbers));
         }
 
         IEnumerator SpawnNumbers(int[] numbers)
@@ -31,7 +31,7 @@ namespace Arkademy.Graphics
             {
                 var numberObj = Instantiate(damageNumberPrefab, numberRoot);
                 numberObj.text = number.ToString();
-                numberObj.transform.position += new Vector3(Random.Range(-1, 1) * 0.15f, 0, 0);
+                numberObj.transform.position += new Vector3(Random.Range(-1, 1) * 0.3f, 0, 0);
                 LeanTween.alphaCanvas(numberObj.GetComponent<CanvasGroup>(), 0f, fadeOutTime);
                 yield return new WaitForSeconds(spawnInterval);
             }

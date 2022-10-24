@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 2915245116675226114}
   - component: {fileID: 6075599287082692159}
   - component: {fileID: 7801422430260660819}
+  - component: {fileID: 1058259305538291157}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -242,6 +243,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageNumberRoot: {fileID: 7358060788256591246}
   groupPrefab: {fileID: 6922460421832506457, guid: f7001ba09439dd54cb09d95751600735, type: 3}
+--- !u!114 &1058259305538291157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103107388519410857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847fb5f91ce82fd4fb43d40c26bbcd8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destructible: {fileID: 0}
+  sprite: {fileID: 3607602912191757256}
 --- !u!1 &2884760454259131394
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +567,8 @@ GameObject:
   - component: {fileID: 1499797464088826148}
   - component: {fileID: 4250826235849778553}
   - component: {fileID: 2028450639581452715}
+  - component: {fileID: 2307445031341709584}
+  - component: {fileID: 6120821241776891601}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -665,8 +682,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db09388633b01a418b3482c9525cd41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 10
-  currLife: 10
+--- !u!114 &2307445031341709584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374364082288673275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2f2926f3261664cb2cfee937caf0c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDurability: 100
+  currDurability: 100
+  AfterDestructionEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6120821241776891601}
+        m_TargetAssemblyTypeName: Arkademy.Spawner, Assembly-CSharp
+        m_MethodName: SpawnObjects
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  damageable: {fileID: 0}
+--- !u!114 &6120821241776891601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374364082288673275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b177155ae3d1234fb62dd34045fd8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnList: []
+  spawnInterval: 0
 --- !u!1 &8296343805607137519
 GameObject:
   m_ObjectHideFlags: 0

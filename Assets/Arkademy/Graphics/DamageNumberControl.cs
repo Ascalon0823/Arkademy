@@ -25,7 +25,7 @@ namespace Arkademy.Graphics
         {
             var group = Instantiate(groupPrefab);
             group.transform.position = damageNumberRoot.position;
-            group.Setup(new[] {damage, damage, damage}, damageNumberRoot);
+            group.Setup(new[] {damage}, damageNumberRoot);
         }
     }
 }

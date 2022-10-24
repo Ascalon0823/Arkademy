@@ -26,8 +26,6 @@ namespace Arkademy
 
         public void PickBy(Picker picker)
         {
-            var damageable = picker.GetComponentInChildren<Damageable>();
-            if(damageable)damageable.TakeDamage(100);
             Destroy(gameObject);
         }
     }
