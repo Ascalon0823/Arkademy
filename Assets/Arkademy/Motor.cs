@@ -10,7 +10,7 @@ namespace Arkademy
         public Rigidbody2D rb;
         public Vector2 moveDir;
         public float speed;
-        private void FixedUpdate()
+        private void Update()
         {
             rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * moveDir);
         }

@@ -1,0 +1,34 @@
+using System;
+using UnityEngine;
+
+namespace Arkademy
+{
+    public class PickUp : MonoBehaviour
+    {
+        public float dropTime;
+        [SerializeField] private Collider2D collider;
+
+        private void Awake()
+        {
+            collider.enabled = false;
+        }
+
+        private void Start()
+        {
+            CancelInvoke();
+            Invoke(nameof(EnableCollider), dropTime);
+        }
+
+        private void EnableCollider()
+        {
+            collider.enabled = true;
+        }
+
+        public void PickBy(Picker picker)
+        {
+            var damageable = picker.GetComponentInChildren<Damageable>();
+            if(damageable)damageable.TakeDamage(100);
+            Destroy(gameObject);
+        }
+    }
+}

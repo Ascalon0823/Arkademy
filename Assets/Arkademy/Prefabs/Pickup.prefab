@@ -93,6 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4605774590905836746}
+  - component: {fileID: 1681265409537601571}
   m_Layer: 0
   m_Name: Pickup
   m_TagString: Untagged
@@ -117,6 +118,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1681265409537601571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3946050079524113162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a6a236265a4394bbaa7288de5cd177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropTime: 1
+  collider: {fileID: 2443121001899898126}
 --- !u!1 &4770706310199792378
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,10 +309,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00aca50b8adc85e4da1bb9e1fec618d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUp: {fileID: 1681265409537601571}
   target: {fileID: 4770706310199792378}
   startingLocalPos: {x: 0, y: 0.25, z: 0}
   dropDistance: 2
-  dropTime: 1
   distance: 0.3
   time: 2
 --- !u!1 &8690985162733604595
