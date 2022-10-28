@@ -8,6 +8,7 @@ namespace Arkademy
         public Action<int> AfterReceiveDamage;
         public void TakeDamage(int damage)
         {
+            if (!enabled) return;
             AfterReceiveDamage?.Invoke(damage);
         }
     }
