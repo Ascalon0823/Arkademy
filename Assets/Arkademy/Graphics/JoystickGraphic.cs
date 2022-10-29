@@ -16,21 +16,25 @@ namespace Arkademy.Graphics
 
         void LateUpdate()
         {
-            var fingers = LeanTouch.GetFingers(true,false,1);
-            if (fingers == null||fingers.Count==0) return;
+            var fingers = LeanTouch.GetFingers(true, false, 1);
+            if (fingers == null || fingers.Count == 0) return;
             var finger = fingers[0];
             if (finger.GetScreenDistance(finger.StartScreenPosition) >
                 LeanTouch.CurrentSwipeThreshold)
             {
                 root.gameObject.SetActive(true);
             }
+
             if (finger.Up)
             {
                 root.gameObject.SetActive(false);
                 return;
             }
+
             root.position = finger.StartScreenPosition;
-            handle.position = finger.ScreenPosition;
+            handle.position = finger.StartScreenPosition +
+                              Vector2.ClampMagnitude(finger.ScreenPosition - finger.StartScreenPosition,
+                                  root.sizeDelta.x);
         }
     }
 }
