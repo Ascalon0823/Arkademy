@@ -31,11 +31,6 @@ namespace Arkademy.UI.Game.HUD
         public void OnPointerUp(PointerEventData eventData)
         {
             Debug.Log(currOption, currOption);
-            if (currOption )
-            {
-                toggle.GetComponent<Image>().sprite = currOption.GetComponent<Image>().sprite;
-            }
-           
             menu.SetActive(false);
         }
 

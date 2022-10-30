@@ -169,6 +169,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Icons24x24_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6f8f0d8a5652ff4d94fccb7e99b459f
+      internalID: 785909193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -181,6 +202,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Icons24x24_1: -1471280767
+      Icons24x24_2: 785909193
       Icons24x24_0: 762183903
   spritePackingTag: 
   pSDRemoveMatte: 0
