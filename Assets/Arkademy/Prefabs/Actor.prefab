@@ -569,6 +569,7 @@ GameObject:
   - component: {fileID: 2028450639581452715}
   - component: {fileID: 2307445031341709584}
   - component: {fileID: 6120821241776891601}
+  - component: {fileID: 2814162819283680134}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -749,6 +750,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnList: []
+--- !u!114 &2814162819283680134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374364082288673275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf315616534bd84e882304c7c67f290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  max: 100
+  curr: 100
+  regen: 10
 --- !u!1 &8296343805607137519
 GameObject:
   m_ObjectHideFlags: 0
