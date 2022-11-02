@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Arkademy.TilePicker;
 using CGS.Grid;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Arkademy
 {
@@ -23,6 +26,7 @@ namespace Arkademy
         [SerializeField] private bool built;
         [SerializeField] private bool createTile;
         [SerializeField] private TilePickerLayers[] tilePickerLayers;
+        [SerializeField] private BaseTilePicker baseTilePicker;
         private Dictionary<string, GameObject> createdLayers = new Dictionary<string, GameObject>();
         private World currWorld;
         private GameObject worldGo;
@@ -57,19 +61,25 @@ namespace Arkademy
 
             createdLayers.Clear();
             worldGo = new GameObject("World");
-            foreach (var layer in tilePickerLayers)
+            worldGo.AddComponent<Grid>();
+            var tileCount = currWorld.Width() * currWorld.Height();
+            var layerGo = new GameObject();
+            layerGo.transform.SetParent(worldGo.transform);
+            layerGo.transform.localPosition = Vector3.zero;
+            var tileMap = layerGo.AddComponent<Tilemap>();
+            
+            var poses = new Vector3Int[tileCount];
+            var tiles = new TileBase[tileCount];
+            var c = 0;
+            currWorld.Iterate((x, y) =>
             {
-                var layerGo = new GameObject(layer.layer);
-                layerGo.transform.SetParent(worldGo.transform);
-                layerGo.transform.localPosition = Vector3.zero;
-                currWorld.Iterate((x, y) =>
-                {
-                    var go = layer.tilePicker.GetTileObject(currWorld[x, y], currWorld);
-                    if (go == null) return;
-                    go.transform.position = currWorld.GetPos(x, y);
-                    go.transform.SetParent(layerGo.transform);
-                });
-            }
+                poses[c] = new Vector3Int(x, y, 0);
+                tiles[c] = baseTilePicker.GetTileBaseAt(x, y, currWorld);
+                c++;
+            });
+            tileMap.transform.localPosition = currWorld.AnchorPos;
+            tileMap.SetTiles(poses, tiles);
+            layerGo.gameObject.AddComponent<TilemapRenderer>();
         }
     }
 }

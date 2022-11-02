@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
@@ -544,8 +544,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d156fddeed265488009f6d1c637ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 256
-  height: 256
+  width: 128
+  height: 128
   worldBuilder: {fileID: 11400000, guid: 267ca64c7d097974dbd7556bf380a0f5, type: 2}
   built: 0
   createTile: 1
@@ -554,6 +554,7 @@ MonoBehaviour:
     tilePicker: {fileID: 11400000, guid: 50185ad2225a136428871c0bd3db3893, type: 2}
   - layer: Tectonic
     tilePicker: {fileID: 11400000, guid: 5bdeaf49bf39e37489c941438ff6781b, type: 2}
+  baseTilePicker: {fileID: 11400000, guid: 67f4c8c7cf1968c4fad7cb1e42baca3d, type: 2}
 --- !u!4 &809876500
 Transform:
   m_ObjectHideFlags: 0
