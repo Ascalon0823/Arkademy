@@ -26,6 +26,7 @@ namespace Arkademy
         public Vector2 swipeDistance;
         public float holdTime;
 
+        public ProjectileBehaviour spawn;
         private void Awake()
         {
             if (LocalPlayer != null)
@@ -98,6 +99,12 @@ namespace Arkademy
             if (tap)
             {
                 Debug.Log("tap");
+                var p = Instantiate(spawn, currActor.transform.position, Quaternion.identity);
+                if (currInteractionCandidate)
+                {
+                    p.homing = true;
+                    p.targetTransform = currInteractionCandidate.transform;
+                }
             }
 
             if (up)
