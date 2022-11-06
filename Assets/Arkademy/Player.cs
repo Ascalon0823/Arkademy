@@ -12,11 +12,19 @@ namespace Arkademy
     {
         public static Player LocalPlayer;
         public GameObject currActor;
-        public GameObject currInteractionCandidate;
+        public Interaction currInteractionCandidate;
 
         public float interactionTime;
         private bool fingerInUse;
         private bool fingerDisposed;
+        public bool tap;
+        public bool swipe;
+        public bool drag;
+        public bool hold;
+        public bool up;
+        public Vector2 dragDistance;
+        public Vector2 swipeDistance;
+        public float holdTime;
 
         private void Awake()
         {
@@ -42,94 +50,9 @@ namespace Arkademy
                 return;
             }
 
+            HandleInput();
             HandleMove();
-            HandleInteractionInput();
             HandleInteractionCandidate();
-        }
-
-        private void LateUpdate()
-        {
-            HandleFingerExpire();
-        }
-
-        private void HandleFingerExpire()
-        {
-            var finger = GetFinger();
-            if (finger == null) return;
-            if (!finger.Up) return;
-            fingerDisposed = false;
-            fingerInUse = false;
-        }
-
-        private void HandleInteractionInput()
-        {
-            if (!currActor) return;
-            var progress = currActor.GetComponentInChildren<ActionProgress>();
-            if (!progress) return;
-            progress.currProgress = GetInteractionProgress();
-            if (progress.currProgress <= 1f + LeanTouch.CurrentTapThreshold) return;
-            var interact = currActor.GetComponentInChildren<Interaction>();
-            if (interact.currTarget) return;
-            var other = currInteractionCandidate.GetComponentInChildren<Interaction>();
-            if (!interact || !other) return;
-            Debug.Log($"Interact with {currInteractionCandidate.name}", currInteractionCandidate);
-            interact.InteractWith(other);
-            fingerDisposed = true;
-        }
-
-
-        private float GetInteractionProgress()
-        {
-            if (!currInteractionCandidate) return 0f;
-            var finger = GetFinger();
-            if (finger == null) return 0f;
-            if (finger.GetScreenDistance(finger.StartScreenPosition) >
-                LeanTouch.CurrentSwipeThreshold) return 0f;
-            if (fingerInUse || fingerDisposed) return 0f;
-            return finger.Age < LeanTouch.CurrentTapThreshold
-                ? 0f
-                : (finger.Age - LeanTouch.CurrentTapThreshold) / interactionTime;
-        }
-
-        private void HandleInteractionCandidate()
-        {
-            var candidate = GetInteractionCandidate();
-            if (candidate == currInteractionCandidate) return;
-            if (candidate)
-            {
-                var hightlight = candidate.GetComponentInChildren<HighlightControl>();
-                if (hightlight)
-                {
-                    hightlight.ToggleHighlight(true);
-                }
-            }
-
-            if (currInteractionCandidate)
-            {
-                var hightlight = currInteractionCandidate.GetComponentInChildren<HighlightControl>();
-                if (hightlight)
-                {
-                    hightlight.ToggleHighlight(false);
-                }
-            }
-
-            currInteractionCandidate = candidate;
-        }
-
-        private GameObject GetInteractionCandidate()
-        {
-            if (!currActor) return null;
-            var detector = currActor.GetComponentInChildren<Detector>();
-            if (!detector) return null;
-            if (detector.Detected == null || detector.Detected.Count == 0) return null;
-            var validDetected = detector.Detected
-                .Where(x => x.gameObject.layer == LayerMask.NameToLayer("Default") && !x.isTrigger &&
-                            x.GetComponentInParent<Interaction>()).ToList();
-            if (!validDetected.Any()) return null;
-            var nearest =
-                validDetected.OrderBy(x => Vector2.Distance(x.transform.position, detector.transform.position))
-                    .First();
-            return nearest.transform.root.gameObject;
         }
 
         private LeanFinger GetFinger()
@@ -139,49 +62,118 @@ namespace Arkademy
             return fingers[0];
         }
 
+        private void HandleInput()
+        {
+            var finger = GetFinger();
+            if (finger == null)
+            {
+                tap = false;
+                up = false;
+                hold = false;
+                drag = false;
+                swipe = false;
+                return;
+            }
+
+            if (fingerDisposed)
+            {
+                if (finger.Up)
+                {
+                    fingerDisposed = false;
+                }
+
+                return;
+            }
+
+            tap = finger.Tap;
+            up = finger.Up;
+            swipe = finger.Swipe || (up && finger.GetSnapshotScreenDelta(LeanTouch.CurrentTapThreshold).magnitude >=
+                LeanTouch.CurrentSwipeThreshold);
+
+            drag = finger.GetScreenDistance(finger.StartScreenPosition) >
+                LeanTouch.CurrentSwipeThreshold || drag;
+
+            hold = finger.Age > LeanTouch.CurrentTapThreshold && finger.GetScreenDistance(finger.StartScreenPosition) <
+                LeanTouch.CurrentSwipeThreshold && !drag || hold;
+            if (tap)
+            {
+                Debug.Log("tap");
+            }
+
+            if (up)
+            {
+                Debug.Log("up");
+            }
+
+            if (swipe)
+            {
+                swipeDistance = finger.GetSnapshotScreenDelta(LeanTouch.CurrentTapThreshold);
+                Debug.Log("swipe");
+            }
+
+            if (drag)
+            {
+                dragDistance = finger.ScreenPosition - finger.StartScreenPosition;
+                Debug.Log("drag");
+            }
+
+            if (hold)
+            {
+                holdTime = finger.Age - LeanTouch.CurrentTapThreshold;
+                Debug.Log("hold");
+            }
+        }
+
+
         private void HandleMove()
         {
             if (!currActor) return;
             var motor = currActor.GetComponent<Motor>();
             if (!motor) return;
-            var finger = GetFinger();
-            if (finger == null) return;
-            if (fingerDisposed) return;
-            if (finger.Age < LeanTouch.CurrentTapThreshold && finger.GetScreenDistance(finger.StartScreenPosition) <
-                LeanTouch.CurrentSwipeThreshold)
+            if (tap || up)
             {
-                return;
-            }
-
-            if (finger.Tap)
-            {
-                Debug.Log("Tap");
                 motor.moveDir = Vector2.zero;
                 return;
             }
 
-            if (finger.Up)
+            if (drag)
             {
-                if (finger.GetSnapshotScreenDelta(LeanTouch.CurrentTapThreshold).magnitude >=
-                    LeanTouch.CurrentSwipeThreshold * 2f)
+                motor.moveDir = dragDistance * 4 / Screen.width;
+                motor.moveDir = Vector2.ClampMagnitude(motor.moveDir, 1f);
+            }
+        }
+
+        private void HandleInteractionCandidate()
+        {
+            Interaction newInteractionCandidate = null;
+            if (currActor)
+            {
+                var playerInteraction = currActor.GetComponentInChildren<Interaction>();
+                if (playerInteraction)
                 {
-                    Debug.Log("SwipeEnd");
+                    newInteractionCandidate = playerInteraction.currCandidate;
                 }
-
-                motor.moveDir = Vector2.zero;
-                return;
             }
 
-            if (finger.GetScreenDistance(finger.StartScreenPosition) >
-                LeanTouch.CurrentSwipeThreshold)
+            if (newInteractionCandidate == currInteractionCandidate) return;
+            if (newInteractionCandidate)
             {
-                fingerInUse = true;
+                newInteractionCandidate.transform.root.GetComponentInChildren<HighlightControl>()
+                    ?.ToggleHighlight(true);
             }
 
-            if (!fingerInUse) return;
+            if (currInteractionCandidate)
+            {
+                currInteractionCandidate.transform.root.GetComponentInChildren<HighlightControl>()
+                    ?.ToggleHighlight(false);
+            }
 
-            motor.moveDir = (finger.ScreenPosition - finger.StartScreenPosition) * 4 / Screen.width;
-            motor.moveDir = Vector2.ClampMagnitude(motor.moveDir, 1f);
+            currInteractionCandidate = newInteractionCandidate;
+        }
+
+        public void DisposeAllInput()
+        {
+            fingerDisposed = true;
         }
     }
 }
