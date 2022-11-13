@@ -24,6 +24,7 @@ namespace Arkademy
         public bool up;
         public Vector2 dragDistance;
         public Vector2 swipeDistance;
+        public float holdTresh;
         public float holdTime;
 
         public ProjectileBehaviour spawn;
@@ -94,7 +95,7 @@ namespace Arkademy
             drag = finger.GetScreenDistance(finger.StartScreenPosition) >
                 LeanTouch.CurrentSwipeThreshold || drag;
 
-            hold = finger.Age > LeanTouch.CurrentTapThreshold && finger.GetScreenDistance(finger.StartScreenPosition) <
+            hold = finger.Age > holdTresh && finger.GetScreenDistance(finger.StartScreenPosition) <
                 LeanTouch.CurrentSwipeThreshold && !drag || hold;
             if (tap)
             {

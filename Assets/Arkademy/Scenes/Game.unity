@@ -408,9 +408,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8879977756004133487, guid: 66cb5b4c4cfbf1748b40e1987bc4bd05, type: 3}
     - target: {fileID: -155026348718647759, guid: 89baf7c6e6d59014abc3c7d635d981fe, type: 3}
+      propertyPath: holdTime
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -155026348718647759, guid: 89baf7c6e6d59014abc3c7d635d981fe, type: 3}
       propertyPath: currActor
       value: 
       objectReference: {fileID: 2095994277}
+    - target: {fileID: -155026348718647759, guid: 89baf7c6e6d59014abc3c7d635d981fe, type: 3}
+      propertyPath: holdTresh
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: -155026348718647759, guid: 89baf7c6e6d59014abc3c7d635d981fe, type: 3}
       propertyPath: interactionTime
       value: 0.3
