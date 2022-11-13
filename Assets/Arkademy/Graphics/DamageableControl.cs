@@ -25,9 +25,10 @@ namespace Arkademy.Graphics
 
         public void OnReceiveDamage(int damage)
         {
+            
             descrColor = LeanTween.color(sprite.gameObject, Color.red, 0.05f).setOnComplete(_ =>
                 LeanTween.color(sprite.gameObject, Color.white, 0.15f).setEaseOutCubic());
-            descrMove = LeanTween.moveLocalX(sprite.gameObject, 0.1f, 0.04f).setEaseOutSine().setLoopPingPong(4);
+            descrMove = LeanTween.moveLocalX(sprite.gameObject, 0.1f, 0.04f).setEaseOutSine().setLoopPingPong(4).setOnComplete(x=>sprite.transform.localPosition = Vector3.zero);
         }
     }
 }

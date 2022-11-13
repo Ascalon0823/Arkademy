@@ -1,11 +1,14 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Arkademy
 {
     public class ProjectileBehaviour : MonoBehaviour
     {
         public float lifeTime;
+        public GameObject[] ignores;
         public Vector3 spawnAt;
         public Vector3 targetDir;
         public bool useTargetPoint;
@@ -23,11 +26,14 @@ namespace Arkademy
         public float currSpeed;
         public float remainLifeTime;
         public Vector3 currVelocity;
+        public float scatterRange;
 
         private void Start()
         {
             spawnAt = transform.position;
-            targetDir = transform.up;
+            targetPoint = targetTransform.position;
+            targetDir = (targetPoint - spawnAt).normalized;
+            transform.up = targetDir;
             remainLifeTime = lifeTime;
             remainingPierce = maxPierce;
             remainingRicochet = maxRicochet;
@@ -43,15 +49,16 @@ namespace Arkademy
             }
 
             remainLifeTime -= Time.deltaTime;
-            var dir = transform.up;
+            var dir = targetDir;
+            var scatter = (Random.Range(0, 1f) > 0.8f ? Random.insideUnitCircle : Vector2.zero)*scatterRange;
             if (homing)
             {
-                dir = (targetTransform.position - transform.position).normalized;
+                dir = (targetTransform.position+(Vector3)scatter - transform.position).normalized;
             }
 
             if (useTargetPoint)
             {
-                dir = (targetPoint - transform.position).normalized;
+                dir = (targetPoint+(Vector3)scatter - transform.position).normalized;
             }
 
             var accel = Mathf.Sqrt(Vector3.Dot(currVelocity, dir) > 0 ? acceleration : deceleration);
@@ -69,6 +76,30 @@ namespace Arkademy
         {
             return remainLifeTime <= 0 || (remainingPierce <= 0 && remainingPierce != maxPierce)
                                        || (remainingRicochet <= 0 && remainingRicochet != maxRicochet);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            Debug.Log("Hit",other);
+            if (ignores != null && ignores.Any(x=>other.transform.root.gameObject==x))
+            {
+                return;
+            }
+            var damageable = other.GetComponentInParent<Damageable>();
+
+            if (damageable)
+            {
+                if (maxPierce != 0)
+                {
+                    remainingPierce--;
+                }
+
+                damageable.TakeDamage(10);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

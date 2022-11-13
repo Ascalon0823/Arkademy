@@ -102,9 +102,10 @@ namespace Arkademy
                 var p = Instantiate(spawn, currActor.transform.position, Quaternion.identity);
                 if (currInteractionCandidate)
                 {
-                    p.homing = true;
                     p.targetTransform = currInteractionCandidate.transform;
                 }
+
+                p.ignores = new[] {currActor};
             }
 
             if (up)
