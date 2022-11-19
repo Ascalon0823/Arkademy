@@ -101,6 +101,8 @@ namespace Arkademy
             {
                 Debug.Log("tap");
                 var p = Instantiate(spawn, currActor.transform.position, Quaternion.identity);
+                p.targetDir = currActor.GetComponent<Facing>().facingDir;
+                p.GetComponent<DamageDealer>().faction = currActor.GetComponent<Damageable>().faction;
                 if (currInteractionCandidate)
                 {
                     p.targetTransform = currInteractionCandidate.transform;

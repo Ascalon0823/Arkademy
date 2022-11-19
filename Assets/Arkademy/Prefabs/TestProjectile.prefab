@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 908387798727380650}
   - component: {fileID: 2919458880083986829}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,9 @@ GameObject:
   - component: {fileID: 2553446653604538022}
   - component: {fileID: 8879977756004133487}
   - component: {fileID: 2896544331252207077}
-  m_Layer: 0
+  - component: {fileID: -6854598780003753353}
+  - component: {fileID: 9111986457292382316}
+  m_Layer: 6
   m_Name: TestProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,17 +139,13 @@ MonoBehaviour:
   targetDir: {x: 0, y: 0, z: 0}
   useTargetPoint: 0
   targetPoint: {x: 0, y: 0, z: 0}
-  homing: 0
+  homing: 1
   targetTransform: {fileID: 0}
-  maxPierce: 1
-  remainingPierce: 0
-  maxRicochet: 0
-  remainingRicochet: 0
   maxHomingAngle: 30
   acceleration: 50
-  deceleration: 10
+  deceleration: 5
   maxSpeed: 20
-  currSpeed: 20
+  currSpeed: 0
   remainLifeTime: 0
   currVelocity: {x: 0, y: 0, z: 0}
   scatterRange: 0
@@ -167,6 +165,42 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.25
+--- !u!50 &-6854598780003753353
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354558546752808225}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
+--- !u!114 &9111986457292382316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354558546752808225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baac11d813806c641bd408bff89e321a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  amount: 5
+  interval: 0
 --- !u!1 &3651196532821609960
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,13 +211,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7409996584096088306}
   - component: {fileID: 7101287415941292562}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7409996584096088306
 Transform:
   m_ObjectHideFlags: 0

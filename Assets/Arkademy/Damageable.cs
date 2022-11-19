@@ -5,6 +5,7 @@ namespace Arkademy
 {
     public class Damageable : MonoBehaviour
     {
+        public int faction;
         public Action<int> AfterReceiveDamage;
         public void TakeDamage(int damage)
         {

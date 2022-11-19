@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detector: {fileID: 4041077945964126915}
-  range: 1
+  range: 2
 --- !u!114 &2028450639581452715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db09388633b01a418b3482c9525cd41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faction: 0
 --- !u!114 &2307445031341709584
 MonoBehaviour:
   m_ObjectHideFlags: 0
