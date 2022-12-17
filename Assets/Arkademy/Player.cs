@@ -10,6 +10,22 @@ namespace Arkademy
 {
     public class Player : MonoBehaviour
     {
+        public enum InputState
+        {
+            None,
+            Tap,
+            Swipe,
+            Hold,
+            HoldUp,
+            HoldSwipe,
+            HoldDrag,
+            HoldDragUp,
+            HoldDragSwipe,
+            Drag,
+            DragSwipe,
+            DragUp
+        }
+
         public static Player LocalPlayer;
         public GameObject currActor;
         public Interaction currInteractionCandidate;
@@ -27,8 +43,38 @@ namespace Arkademy
         public float holdTresh;
         public float holdTime;
         public bool postSwipeDrag;
+        public float dragBeginAge;
+
+        public InputState CurrInputState
+        {
+            get
+            {
+                if (tap) return InputState.Tap;
+                if (swipe)
+                {
+                    if (!postSwipeDrag && !hold) return InputState.Swipe;
+                    if (!postSwipeDrag) return InputState.HoldSwipe;
+                    if (!hold) return InputState.DragSwipe;
+                    return InputState.HoldDragSwipe;
+                }
+
+                if (up)
+                {
+                    if (!postSwipeDrag && !hold) return InputState.None;
+                    if (!postSwipeDrag) return InputState.HoldUp;
+                    if (!hold) return InputState.DragUp;
+                    return InputState.HoldDragUp;
+                }
+
+                if (postSwipeDrag && hold) return InputState.HoldDrag;
+                if (postSwipeDrag) return InputState.Drag;
+                if (hold) return InputState.Hold;
+                return InputState.None;
+            }
+        }
 
         public ProjectileBehaviour spawn;
+
         private void Awake()
         {
             if (LocalPlayer != null)
@@ -76,6 +122,7 @@ namespace Arkademy
                 drag = false;
                 swipe = false;
                 postSwipeDrag = false;
+                dragBeginAge = 0;
                 return;
             }
 
@@ -93,54 +140,36 @@ namespace Arkademy
             up = finger.Up;
             swipe = finger.Swipe || (up && finger.GetSnapshotScreenDelta(LeanTouch.CurrentTapThreshold).magnitude >=
                 LeanTouch.CurrentSwipeThreshold);
-
+            var wasDrag = drag;
             drag = finger.GetScreenDistance(finger.StartScreenPosition) >
                 LeanTouch.CurrentSwipeThreshold || drag;
-            postSwipeDrag = drag && finger.Age > LeanTouch.Instance.TapThreshold;
-            hold = finger.Age > holdTresh && finger.GetScreenDistance(finger.StartScreenPosition) <
-                LeanTouch.CurrentSwipeThreshold && !drag || hold;
-            if (tap)
+            if (!wasDrag && drag)
             {
-                Debug.Log("tap");
+                dragBeginAge = finger.Age;
             }
 
-            if (up)
-            {
-                Debug.Log("up");
-            }
+            postSwipeDrag = drag && (finger.Age - dragBeginAge) > LeanTouch.Instance.TapThreshold;
+            hold = finger.Age > holdTresh && finger.GetScreenDistance(finger.StartScreenPosition) <
+                LeanTouch.CurrentSwipeThreshold && !drag || hold;
+
 
             if (swipe)
             {
                 swipeDistance = finger.GetSnapshotScreenDelta(LeanTouch.CurrentTapThreshold);
-                Debug.Log("swipe");
             }
 
             if (drag)
             {
                 dragDistance = finger.ScreenPosition - finger.StartScreenPosition;
-                Debug.Log("drag");
             }
 
             if (hold)
             {
                 holdTime = finger.Age - LeanTouch.CurrentTapThreshold;
-                Debug.Log("hold");
             }
 
-            if (hold && drag)
-            {
-                Debug.Log("Hold and drag");
-            }
-
-            if (hold && drag && swipe)
-            {
-                Debug.Log("Hold drag swipe");
-            }
-
-            if (drag && swipe)
-            {
-                Debug.Log("Drag swipe");
-            }
+            if (CurrInputState != InputState.None)
+                Debug.Log(CurrInputState);
         }
 
 
