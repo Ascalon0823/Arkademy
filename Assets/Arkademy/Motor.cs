@@ -10,9 +10,9 @@ namespace Arkademy
         public Rigidbody2D rb;
         public Vector2 moveDir;
         public float speed;
-        private void Update()
+        private void LateUpdate()
         {
-            rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * moveDir);
+            rb.MovePosition(rb.position + speed * Time.deltaTime * moveDir);
         }
     }
 }

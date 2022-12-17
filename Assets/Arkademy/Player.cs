@@ -44,7 +44,6 @@ namespace Arkademy
         public float holdTime;
         public bool postSwipeDrag;
         public float dragBeginAge;
-
         public InputState CurrInputState
         {
             get
