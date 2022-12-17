@@ -103,9 +103,9 @@ namespace Arkademy
                 var p = Instantiate(spawn, currActor.transform.position, Quaternion.identity);
                 p.targetDir = currActor.GetComponent<Facing>().facingDir;
                 p.GetComponent<DamageDealer>().faction = currActor.GetComponent<Damageable>().faction;
-                if (currInteractionCandidate)
+                if (currInteractionCandidate&&currInteractionCandidate.transform.root.GetComponentInChildren<Damageable>())
                 {
-                    p.targetTransform = currInteractionCandidate.transform;
+                    p.target = currInteractionCandidate.transform.root.GetComponentInChildren<Damageable>();
                 }
 
                 p.ignores = new[] {currActor};

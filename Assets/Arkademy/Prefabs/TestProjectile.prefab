@@ -133,14 +133,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468f8f35c6378e04ba3e63ea8e816f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 5
+  lifeTime: 2
   ignores: []
   spawnAt: {x: 0, y: 0, z: 0}
   targetDir: {x: 0, y: 0, z: 0}
   useTargetPoint: 0
   targetPoint: {x: 0, y: 0, z: 0}
   homing: 1
-  targetTransform: {fileID: 0}
+  target: {fileID: 0}
   maxHomingAngle: 30
   acceleration: 50
   deceleration: 5
@@ -148,7 +148,7 @@ MonoBehaviour:
   currSpeed: 0
   remainLifeTime: 0
   currVelocity: {x: 0, y: 0, z: 0}
-  scatterRange: 0
+  scatterRange: 2
 --- !u!58 &2896544331252207077
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
-  amount: 5
+  amount: 33
   interval: 0
 --- !u!1 &3651196532821609960
 GameObject:

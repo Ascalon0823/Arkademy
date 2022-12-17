@@ -2,6 +2,7 @@
 using Arkademy.StageBuilders;
 using Arkademy.TilePicker;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Arkademy
 {
@@ -40,6 +41,18 @@ namespace Arkademy
                 go.transform.SetParent(stageGO.transform);
                 go.transform.position = currentStage.GetPos(x, y);
             });
+        }
+
+        public Vector3 GetRandomPositionFrom(Vector3 center, float from, float to)
+        {
+            from = Mathf.Max(0, from);
+            to = Mathf.Min(new Vector2(currentStage.Width(), currentStage.Height()).magnitude, to);
+            var radius = Random.Range(from, to);
+            var p = (Vector3) Random.insideUnitCircle.normalized * radius + center;
+            var coord = currentStage.FromPos(p);
+            if (currentStage.IsValid(coord) && !currentStage.IsBoarder(coord.x, coord.y))
+                return p;
+            return GetRandomPositionFrom(center, from, to);
         }
     }
 }

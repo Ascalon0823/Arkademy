@@ -14,7 +14,7 @@ namespace Arkademy
         public bool useTargetPoint;
         public Vector3 targetPoint;
         public bool homing;
-        public Transform targetTransform;
+        public MonoBehaviour target;
         public float maxHomingAngle;
         public float acceleration;
         public float deceleration;
@@ -27,9 +27,9 @@ namespace Arkademy
         private void Start()
         {
             spawnAt = transform.position;
-            if (targetTransform)
+            if (target&&target.enabled)
             {
-                targetPoint = targetTransform.position;
+                targetPoint = target.transform.position;
             }
 
             transform.up = targetDir;
@@ -47,10 +47,10 @@ namespace Arkademy
 
             remainLifeTime -= Time.deltaTime;
             var scatter = (Random.Range(0, 1f) > 0.8f ? Random.insideUnitCircle : Vector2.zero) * scatterRange;
-            if (homing)
+            if (homing&&target&&target.enabled)
             {
-                targetDir = targetTransform
-                    ? (targetTransform.position + (Vector3) scatter - transform.position).normalized
+                targetDir = target.transform
+                    ? (target.transform.position + (Vector3) scatter - transform.position).normalized
                     : targetDir;
             }
 
