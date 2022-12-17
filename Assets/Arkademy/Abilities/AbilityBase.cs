@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class AbilityBase : MonoBehaviour
+namespace Arkademy.Abilities
 {
-    // Start is called before the first frame update
-    void Start()
+    public abstract class AbilityBase : MonoBehaviour
     {
-        
-    }
+        public float reuseTime;
+        public float remainingReuseTime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public virtual bool TryUse()
+        {
+            if (!CanUse()) return false;
+            PayLoad();
+            return true;
+        }
+
+        public virtual bool CanUse()
+        {
+            return remainingReuseTime <= 0f;
+        }
+
+        public abstract void PayLoad();
+
+        protected virtual void Update()
+        {
+            if (remainingReuseTime <= 0) return;
+            remainingReuseTime -= Time.deltaTime;
+            remainingReuseTime = Mathf.Max(0, remainingReuseTime);
+        }
     }
 }

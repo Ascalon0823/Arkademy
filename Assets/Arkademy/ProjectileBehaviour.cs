@@ -23,6 +23,7 @@ namespace Arkademy
         public float remainLifeTime;
         public Vector3 currVelocity;
         public float scatterRange;
+        public LayerMask blockBy;
 
         private void Start()
         {
@@ -59,7 +60,7 @@ namespace Arkademy
                 targetDir = (targetPoint + (Vector3) scatter - transform.position).normalized;
             }
 
-            var accel = Mathf.Sqrt(Vector3.Dot(currVelocity, targetDir) > 0 ? acceleration : deceleration);
+            var accel = (!homing||Mathf.Sqrt(Vector3.Dot(currVelocity, targetDir)) > 0) ? acceleration : deceleration;
             currVelocity = new Vector3(
                 Mathf.Lerp(currVelocity.x, targetDir.x * maxSpeed, accel * Time.deltaTime),
                 Mathf.Lerp(currVelocity.y, targetDir.y * maxSpeed, accel * Time.deltaTime), 0f);
@@ -73,6 +74,16 @@ namespace Arkademy
         private bool ShouldDestroy()
         {
             return remainLifeTime <= 0;
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.isTrigger) return;
+            if (ignores!=null&&ignores.ToList().Contains(other.transform.root.gameObject)) return;
+            if ((blockBy & (1 << other.gameObject.layer)) == 1 << other.gameObject.layer)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

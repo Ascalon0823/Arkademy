@@ -14,6 +14,7 @@ namespace Arkademy
         {
             motor = GetComponent<Motor>();
             interaction = GetComponent<Interaction>();
+            facingDir = Vector2.up;
         }
 
         // Update is called once per frame

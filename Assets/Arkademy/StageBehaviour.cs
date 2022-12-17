@@ -40,6 +40,7 @@ namespace Arkademy
                 var go = tilePicker.GetTileObject(currentStage[x, y], currentStage);
                 go.transform.SetParent(stageGO.transform);
                 go.transform.position = currentStage.GetPos(x, y);
+                go.layer = LayerMask.NameToLayer("Stage");
             });
         }
 

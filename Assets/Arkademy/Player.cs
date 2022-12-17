@@ -26,6 +26,7 @@ namespace Arkademy
         public Vector2 swipeDistance;
         public float holdTresh;
         public float holdTime;
+        public bool postSwipeDrag;
 
         public ProjectileBehaviour spawn;
         private void Awake()
@@ -74,6 +75,7 @@ namespace Arkademy
                 hold = false;
                 drag = false;
                 swipe = false;
+                postSwipeDrag = false;
                 return;
             }
 
@@ -94,21 +96,12 @@ namespace Arkademy
 
             drag = finger.GetScreenDistance(finger.StartScreenPosition) >
                 LeanTouch.CurrentSwipeThreshold || drag;
-
+            postSwipeDrag = drag && finger.Age > LeanTouch.Instance.TapThreshold;
             hold = finger.Age > holdTresh && finger.GetScreenDistance(finger.StartScreenPosition) <
                 LeanTouch.CurrentSwipeThreshold && !drag || hold;
             if (tap)
             {
                 Debug.Log("tap");
-                var p = Instantiate(spawn, currActor.transform.position, Quaternion.identity);
-                p.targetDir = currActor.GetComponent<Facing>().facingDir;
-                p.GetComponent<DamageDealer>().faction = currActor.GetComponent<Damageable>().faction;
-                if (currInteractionCandidate&&currInteractionCandidate.transform.root.GetComponentInChildren<Damageable>())
-                {
-                    p.target = currInteractionCandidate.transform.root.GetComponentInChildren<Damageable>();
-                }
-
-                p.ignores = new[] {currActor};
             }
 
             if (up)
@@ -132,6 +125,21 @@ namespace Arkademy
             {
                 holdTime = finger.Age - LeanTouch.CurrentTapThreshold;
                 Debug.Log("hold");
+            }
+
+            if (hold && drag)
+            {
+                Debug.Log("Hold and drag");
+            }
+
+            if (hold && drag && swipe)
+            {
+                Debug.Log("Hold drag swipe");
+            }
+
+            if (drag && swipe)
+            {
+                Debug.Log("Drag swipe");
             }
         }
 

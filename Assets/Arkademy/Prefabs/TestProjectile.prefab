@@ -149,6 +149,9 @@ MonoBehaviour:
   remainLifeTime: 0
   currVelocity: {x: 0, y: 0, z: 0}
   scatterRange: 2
+  blockBy:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!58 &2896544331252207077
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -199,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
-  amount: 33
+  amount: 50
   interval: 0
 --- !u!1 &3651196532821609960
 GameObject:

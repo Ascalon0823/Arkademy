@@ -38,7 +38,7 @@ namespace Arkademy
             if (!usingDetector) return null;
             if (usingDetector.Detected == null || usingDetector.Detected.Count == 0) return null;
             var validDetected = usingDetector.Detected
-                .Where(x => x.gameObject.layer == LayerMask.NameToLayer("Default") && !x.isTrigger &&
+                .Where(x => x&&x.gameObject.layer == LayerMask.NameToLayer("Default") && !x.isTrigger &&
                             x.GetComponentInParent<Interaction>())
                 .Select(x => x.GetComponentInParent<Interaction>()).ToList();
             if (!validDetected.Any()) return null;

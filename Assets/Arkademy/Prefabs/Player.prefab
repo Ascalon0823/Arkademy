@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3762046452443585628}
   - component: {fileID: -155026348718647759}
+  - component: {fileID: 745663764207344051}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -47,3 +48,31 @@ MonoBehaviour:
   currActor: {fileID: 0}
   currInteractionCandidate: {fileID: 0}
   interactionTime: 0.3
+  tap: 0
+  swipe: 0
+  drag: 0
+  hold: 0
+  up: 0
+  dragDistance: {x: 0, y: 0}
+  swipeDistance: {x: 0, y: 0}
+  holdTresh: 0
+  holdTime: 0
+  spawn: {fileID: 0}
+--- !u!114 &745663764207344051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846034454845482479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a09c6d248957d3345a573187d01d7c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: -155026348718647759}
+  tap: {fileID: 0}
+  swipe: {fileID: 0}
+  drag: {fileID: 0}
+  hold: {fileID: 0}
+  dragSwipe: {fileID: 0}
