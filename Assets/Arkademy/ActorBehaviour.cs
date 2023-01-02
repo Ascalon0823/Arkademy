@@ -10,5 +10,6 @@ namespace Arkademy
         public Character character;
         public Interaction interaction;
         public Motor motor;
+        
     }
 }

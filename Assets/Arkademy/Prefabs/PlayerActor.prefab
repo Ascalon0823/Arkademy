@@ -87,7 +87,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &828193727
@@ -604,6 +604,50 @@ PrefabInstance:
     - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
       propertyPath: character.id
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.givenName
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.commands.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.responds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.commands.Array.data[0].dialogue
+      value: "\u4F60\u597D"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.commands.Array.data[1].dialogue
+      value: "\u518D\u89C1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.responds.Array.data[0].dialogue
+      value: "\u518D\u89C1\u4E86"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.responds.Array.data[1].dialogue
+      value: "\u518D\u89C1\u4E86"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.commands.Array.data[0].displayText
+      value: Greet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.commands.Array.data[1].displayText
+      value: Bye
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.responds.Array.data[0].displayText
+      value: Bye
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882688356120382118, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: character.communication.responds.Array.data[1].displayText
+      value: Bye
       objectReference: {fileID: 0}
     - target: {fileID: 8935410560992183842, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
       propertyPath: m_RootOrder

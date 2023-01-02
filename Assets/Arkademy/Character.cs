@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Arkademy.Dialogue;
 
 namespace Arkademy
 {
@@ -8,13 +9,21 @@ namespace Arkademy
     {
         public string id;
         public string givenName;
-        
 
+
+        public int strength;
+        public int dexterity;
+        public int constitution;
+        public int intelligence;
+        public int wisdom;
+        public int charisma;
+        
         [Serializable]
         public struct Relationship
         {
             public string charId;
-            public float familiarness;
+            public int familiarness;
+            public int affinity;
             // public float respect;
             // public float faith;
             // public float friendliness;
@@ -37,7 +46,7 @@ namespace Arkademy
         {
             // public float relaxness;
             // public float romanticness;
-            public float happiness;
+            public int happiness;
             // public float peacefulness;
             // public float excitement;
         }
@@ -52,12 +61,20 @@ namespace Arkademy
             //     public float hygiene;
             //     public float liveliness;
             // }
-
+            
             public List<Relationship> relationships;
+        }
+
+        [Serializable]
+        public struct Communication
+        {
+            public List<DialogueCommand> commands;
+            public List<DialogueCommand> responds;
         }
 
         public Personality personality;
         public Mood mood;
         public Social social;
+        public Communication communication;
     }
 }

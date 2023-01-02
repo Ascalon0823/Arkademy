@@ -64,13 +64,21 @@ namespace Arkademy
 
         private void HandleInteraction()
         {
-            if (!currActor  || !playerTouchInput || !currActor.interaction)
+            if (!currActor || !playerTouchInput || !currActor.interaction)
             {
                 return;
             }
 
-            if (playerTouchInput.tap)
-                currActor.interaction.InteractWithCurrentCandidate();
+            if (!playerTouchInput.tap) return;
+            currActor.interaction.InteractWithCurrentCandidate();
+            if (currActor.character == null ||
+                currActor.interaction.currTarget.GetComponentInParent<ActorBehaviour>().character == null) return;
+            Dialogue.DialogueManager.Instance.participants = new[]
+            {
+                currActor.character,
+                currActor.interaction.currTarget.GetComponentInParent<ActorBehaviour>().character
+            };
+            Dialogue.DialogueManager.Instance.current = currActor.character;
         }
     }
 }
