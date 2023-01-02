@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 6393814049384221895}
   - component: {fileID: 8080114520719666150}
   m_Layer: 5
-  m_Name: InteractionPanel
+  m_Name: DialoguePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 7030886068725396225}
   - component: {fileID: 4722602612287713253}
   m_Layer: 5
-  m_Name: Buttons
+  m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

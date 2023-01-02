@@ -282,8 +282,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   facing: {fileID: 529256761166433722}
-  originallyFacingRight: 0
-  sr: {fileID: 3607602912191757256}
+  setups:
+  - originallyFacingRight: 1
+    swapX: 1
+    swapY: 0
+    sr: {fileID: 3607602912191757256}
 --- !u!114 &2915245116675226114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,6 +593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8034088835278106171}
   - component: {fileID: 755651269814723336}
+  - component: {fileID: 8882688356120382118}
   - component: {fileID: 2170209229650962828}
   - component: {fileID: 2869480693125182132}
   - component: {fileID: 1499797464088826148}
@@ -646,6 +650,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8882688356120382118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374364082288673275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9308c6c52c7b32648ad9567f968170fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character:
+    id: 0
+    personality:
+      courage: 0
+      resilience: 0
+      outgoingness: 0
+      discipline: 0
+      humor: 0
+      confidence: 0
+    mood:
+      relaxness: 0
+      romanticness: 0
+      happiness: 0
+      peacefulness: 0
+      excitement: 0
+    social:
+      relationships: []
+  interaction: {fileID: 1499797464088826148}
+  motor: {fileID: 2170209229650962828}
 --- !u!114 &2170209229650962828
 MonoBehaviour:
   m_ObjectHideFlags: 0

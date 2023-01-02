@@ -18,14 +18,16 @@ namespace Arkademy.UI.Game.HUD
             cg.interactable = false;
             cg.alpha = 0;
             cg.blocksRaycasts = false;
-            if (!Player.LocalPlayer) return;
-            if (!Player.LocalPlayer.currInteractionCandidate) return;
+            if (!Player.LocalPlayer||!Player.LocalPlayer.currActor
+            ||!Player.LocalPlayer.currActor.interaction) return;
+            if (!Player.LocalPlayer.currActor.interaction.currCandidate) return;
+            
             cg.interactable = true;
             cg.alpha = 1f;
             cg.blocksRaycasts = true;
-            var sprite = Player.LocalPlayer.currInteractionCandidate.transform.root.GetComponentsInChildren<SpriteRenderer>()[1];
-            targetSpriteHolder.sprite = sprite.sprite;
-            targetName.text = Player.LocalPlayer.currInteractionCandidate.name;
+            // var sprite = Player.LocalPlayer.currActor.interaction..transform.root.GetComponentsInChildren<SpriteRenderer>()[1];
+            // targetSpriteHolder.sprite = sprite.sprite;
+            // targetName.text = Player.LocalPlayer.currInteractionCandidate.name;
         }
     }
 }
