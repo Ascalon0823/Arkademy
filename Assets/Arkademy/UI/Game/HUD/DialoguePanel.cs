@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +9,10 @@ namespace Arkademy.UI.Game.HUD
     {
         [SerializeField] private CanvasGroup cg;
 
-        [SerializeField] private Button cancelButton;
+        [SerializeField] private TextMeshProUGUI dialogueTextPrefab;
+        [SerializeField] private DialogueCommandOption commandOptionPrefab;
+        
 
-        private void Start()
-        {
-            cancelButton.onClick.RemoveAllListeners();
-            cancelButton.onClick.AddListener(CancelInteraction);
-        }
 
         private void CancelInteraction()
         {
@@ -31,12 +29,9 @@ namespace Arkademy.UI.Game.HUD
             cg.interactable = false;
             cg.alpha = 0;
             cg.blocksRaycasts = false;
-            if (!Player.LocalPlayer) return;
-            var playerActor = Player.LocalPlayer.currActor;
-            if (!playerActor) return;
-            var interact = playerActor.GetComponentInChildren<Interaction>();
-            if (!interact || !interact.currTarget) return;
-            var actorBehaviour = playerActor.GetComponent<ActorBehaviour>();
+            if (!Player.LocalPlayer || !Player.LocalPlayer.currActor || !Player.LocalPlayer.currActor.interaction ||
+                !Player.LocalPlayer.currActor.interaction.currTarget) return;
+            var actorBehaviour = Player.LocalPlayer.currActor.interaction.currTarget.GetComponent<ActorBehaviour>();
             if (!actorBehaviour || actorBehaviour.character == null) return;
             cg.interactable = true;
             cg.alpha = 1f;
