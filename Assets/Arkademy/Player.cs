@@ -41,7 +41,7 @@ namespace Arkademy
 
             playerTouchInput.UpdateInput();
             HandleMove();
-            HandleInteraction();
+            //HandleInteraction();
         }
 
 

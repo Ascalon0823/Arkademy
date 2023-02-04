@@ -104,9 +104,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6120821241776891601, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: droptable.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6120821241776891601, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
       propertyPath: spawnList.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6120821241776891601, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: droptable.Array.data[0]
+      value: 
+      objectReference: {fileID: 1314772436247093403, guid: a653699c5305da94baa81576ecffa542, type: 3}
+    - target: {fileID: 6120821241776891601, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: droptable.Array.data[1]
+      value: 
+      objectReference: {fileID: 4013689086747261627, guid: fe65b0e2e5b93004d81d0653c6a87b37, type: 3}
+    - target: {fileID: 6120821241776891601, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
+      propertyPath: droptable.Array.data[2]
+      value: 
+      objectReference: {fileID: 2129667309017880748, guid: cbbe61f0e019291489ab955f6e684c32, type: 3}
     - target: {fileID: 6120821241776891601, guid: 2632b1c609b546c4183a047941ee7bd7, type: 3}
       propertyPath: spawnList.Array.data[0]
       value: 

@@ -6,18 +6,18 @@ namespace Arkademy
 {
     public class AbilityInput : MonoBehaviour
     {
-        public Player player;
-        //public Player.InputState state;
+        public PlayerTouchInput input;
+        public PlayerTouchInput.InputState state;
         public AbilityBase ability;
         
         private void Update()
         {
-            if (!player || !ability) return;
-            // if (player.CurrInputState == state)
-            // {
-            //     Debug.Log(this,this);
-            //     ability.TryUse();
-            // }
+            if (!input || !ability) return;
+            if (input.CurrInputState == state)
+            {
+                Debug.Log(this,this);
+                ability.TryUse();
+            }
         }
     }
 }
